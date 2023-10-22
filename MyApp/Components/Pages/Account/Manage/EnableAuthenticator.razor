@@ -79,6 +79,10 @@ else
             </ol>
         </div>
     </div>
+    <script src="js/qrcode.min.js"></script>
+    <script>
+        new QRCode(document.getElementById("qrCode"), document.getElementById('qrCodeData').getAttribute('data-url'))
+    </script>
 }
 
 @code {
