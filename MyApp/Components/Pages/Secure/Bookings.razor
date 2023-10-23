@@ -73,6 +73,6 @@
     public async Task OnSelectedRow(Booking? x)
     {
         var wasDeselected = x == null;
-        if (!wasDeselected) await JS.Log($"{x.Name}");
+        if (!wasDeselected) await JS.Log($"{x!.Name}");
     }
 }

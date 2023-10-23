@@ -3,14 +3,13 @@
 @inject IJSRuntime JS
 
 <!-- Off-canvas menu for mobile, show/hide based on off-canvas menu state. -->
-<div class=@CssUtils.ClassNames("mobile relative z-40 md:hidden", Collapse ? "hidden" : "") role="dialog" aria-modal="true">
-    <div class=@CssUtils.ClassNames("fixed inset-0 bg-gray-600 dark:bg-gray-400 bg-opacity-75 dark:bg-opacity-75", Collapse ? "opacity-0" : "opacity-100")></div>
+<div class="mobile relative z-40 md:hidden" role="dialog" aria-modal="true" data-collapse="hidden">
+    <div class="fixed inset-0 bg-gray-600 dark:bg-gray-400 bg-opacity-75 dark:bg-opacity-75" data-collapse="opacity-0" data-collapse-off="opacity-100"></div>
     <div class="fixed inset-0 flex z-40">
-        <div class=@CssUtils.ClassNames("relative flex-1 flex flex-col max-w-xs w-full bg-white dark:bg-black", Collapse ? "-translate-x-full" : "translate-x-0")>
-            <div class=@CssUtils.ClassNames("absolute top-0 right-0 -mr-12 pt-2", Collapse ? "opacity-0" : "opacity-100")>
-                <button type="button"
-                        class="ml-1 flex items-center justify-center h-10 w-10 rounded-full focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white dark:focus:ring-black"
-                        @onclick=@(() => Toggle.InvokeAsync(true))>
+        <div class="relative flex-1 flex flex-col max-w-xs w-full bg-white dark:bg-black" data-collapse="-translate-x-full" data-collapse-off="translate-x-0">
+            <div class="absolute top-0 right-0 -mr-12 pt-2" data-collapse="opacity-0" data-collapse-off="opacity-100">
+                <button type="button" data-toggle-sidebar
+                        class="ml-1 flex items-center justify-center h-10 w-10 rounded-full focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white dark:focus:ring-black">
                     <span class="sr-only">Close sidebar</span>
                     <!-- Heroicon name: outline/x -->
                     <svg class="h-6 w-6 text-white dark:text-black" xmlns="http://www.w3.org/2000/svg" fill="none"
@@ -100,6 +99,30 @@
     </div>
 </div>
 
+<script type="module">
+import { on, $1 } from "@@servicestack/client"
+
+function toggle() {
+    const body = $1('body')
+    let collapsed = body.getAttribute('data-collapsed')
+    if (collapsed) {
+        body.removeAttribute('data-collapsed')
+    } else {
+        body.setAttribute('data-collapsed', 'true')
+    }
+}
+
+on('[data-toggle-sidebar]', {
+    click: toggle
+})
+
+document.addEventListener('DOMContentLoaded', () => {
+    Blazor.addEventListener('enhancedload', () => {
+        $1('body').removeAttribute('data-collapsed')
+        toggle()
+    })
+})
+</script>
 
 @code {
     const string MobileNavLinkActiveClass = "bg-gray-100 dark:bg-gray-800 text-gray-900 dark:text-gray-50";
@@ -107,10 +130,4 @@
 
     const string DesktopNavLinkActiveClass = "bg-gray-100 dark:bg-gray-800 text-gray-900 dark:text-gray-50";
     const string DesktopNavLinkClass = "text-gray-600 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-gray-900 hover:text-gray-900 dark:hover:text-gray-50 group flex items-center px-2 py-2 font-medium rounded-md";
-
-    [Parameter, EditorRequired]
-    public bool Collapse { get; set; } = true;
-
-    [Parameter, EditorRequired]
-    public EventCallback<bool> Toggle { get; set; }
 }

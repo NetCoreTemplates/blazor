@@ -138,6 +138,22 @@ strong {
     font-weight: 600;
 }
 
+[data-collapsed] [data-collapse=hidden] {
+    display: none
+}
+[data-collapse-off=opacity-100] {
+    opacity: 1
+}
+[data-collapsed] [data-collapse=opacity-0] {
+    opacity: 0
+}
+[data-collapse-off=-translate-x-full] {
+    transform: translateX(0)
+}
+[data-collapsed] [data-collapse=-translate-x-full] {
+    transform: translateX(-100%)
+}
+
 
 @media (min-width: 640px) {
     .youtube {
