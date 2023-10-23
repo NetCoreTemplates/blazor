@@ -48,7 +48,7 @@ else
                         Learn how to <a class="@Css.Link" href="https://go.microsoft.com/fwlink/?Linkid=852423">enable QR code generation</a>.
                     </Alert>
 
-                    <div id="qrCode"></div>
+                    <div data-permanent id="qrCode"></div>
                     <div id="qrCodeData" data-url="@_authenticatorUri"></div>
                 </li>
                 <li>
@@ -81,7 +81,15 @@ else
     </div>
     <script src="js/qrcode.min.js"></script>
     <script>
-        new QRCode(document.getElementById("qrCode"), document.getElementById('qrCodeData').getAttribute('data-url'))
+    (() => {
+        function render() {
+            new QRCode(document.getElementById("qrCode"), document.getElementById('qrCodeData').getAttribute('data-url'))
+        }
+        document.addEventListener('DOMContentLoaded', () => {
+            Blazor.addEventListener('enhancedload', render)
+        })
+        render()
+    })()
     </script>
 }
 
