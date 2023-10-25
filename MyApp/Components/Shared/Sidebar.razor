@@ -100,28 +100,8 @@
 </div>
 
 <script type="module">
-import { on, $1 } from "@@servicestack/client"
-
-function toggle() {
-    const body = $1('body')
-    let collapsed = body.getAttribute('data-collapsed')
-    if (collapsed) {
-        body.removeAttribute('data-collapsed')
-    } else {
-        body.setAttribute('data-collapsed', 'true')
-    }
-}
-
-on('[data-toggle-sidebar]', {
-    click: toggle
-})
-
-document.addEventListener('DOMContentLoaded', () => {
-    Blazor.addEventListener('enhancedload', () => {
-        $1('body').removeAttribute('data-collapsed')
-        toggle()
-    })
-})
+import { bind } from "./js/components/Sidebar.mjs"
+bind()
 </script>
 
 @code {

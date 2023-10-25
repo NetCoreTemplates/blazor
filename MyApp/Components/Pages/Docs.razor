@@ -33,4 +33,6 @@ else if (render.Error == null)
             HostContext.VirtualFileSources.GetFile($"/content/{doc.FileName}").ReadAllTextAsync());
 
     protected override async Task OnInitializedAsync() => await loadDoc();
+
+    protected override async Task OnParametersSetAsync() => await loadDoc();
 }
