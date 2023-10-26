@@ -30,7 +30,7 @@ else if (render.Error == null)
 
     async Task loadDoc() => 
         render = await MarkdownUtils.LoadDocumentAsync(Path!, doc => 
-            HostContext.VirtualFileSources.GetFile($"/content/{doc.FileName}").ReadAllTextAsync());
+            HostContext.VirtualFileSources.AssertFile($"/content/{doc.FileName}").ReadAllTextAsync());
 
     protected override async Task OnInitializedAsync() => await loadDoc();
 
