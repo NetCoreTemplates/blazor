@@ -7,7 +7,6 @@ export function mountAll(opt) {
             modulePath = `../${modulePath}`
         }
         try {
-            console.log('loading ', modulePath)
             const module = await import(modulePath)
             if (typeof module.default?.load == 'function') {
                 module.default.load()
