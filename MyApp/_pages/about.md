@@ -1,12 +1,9 @@
 ---
-title: Hosting Costs
-WARN: During development Browser Cache needs to be disabled to refresh .md changes
+title: App Hosting Costs
 ---
 
-# App Hosting Costs
-
 <a href="https://jamstack.org">
-    <svg xmlns="http://www.w3.org/2000/svg" width="1.2em" height="1.2em" preserveAspectRatio="xMidYMid meet" viewBox="0 0 256 256" class="w-14 h-14 float-left mt-2 mr-4">
+    <svg class="w-14 h-14 float-left mt-2 mr-4" xmlns="http://www.w3.org/2000/svg" width="1.2em" height="1.2em" preserveAspectRatio="xMidYMid meet" viewBox="0 0 256 256">
         <path d="M128 0C57.221 0 0 57.221 0 128c0 70.778 57.221 128 128 128c70.778 0 128-57.222 128-128V0H128z" fill="#F0047F"></path><path d="M121.04 134.96v93.312c-49.663-2.837-89.64-42.345-93.215-91.81l-.097-1.502h93.312zm90.962 0c-2.6 49.664-38.816 89.64-84.159 93.215l-1.377.097V134.96h85.536zm.112-91.074v85.648h-85.648V43.886h85.648z" fill="#FFF"></path>
     </svg>
 </a>
@@ -18,7 +15,7 @@ pre-built static assets from CDN edge caches.
 ## Cheaper Hosting
 
 <a href="https://jamstack.org">
-    <svg xmlns="http://www.w3.org/2000/svg" width="1.2em" height="1.2em" preserveAspectRatio="xMidYMid meet" viewBox="0 0 64 64" class="w-14 h-14 float-left mt-2 mr-4">
+    <svg class="w-14 h-14 float-left mt-2 mr-4" xmlns="http://www.w3.org/2000/svg" width="1.2em" height="1.2em" preserveAspectRatio="xMidYMid meet" viewBox="0 0 64 64">
         <path d="M61 20.9C54.8 15.3 48.6 9.6 42.4 4C33.3 17.8 17.9 30.1 3.3 39c-.4 1.9-.8 3.7-1.3 5.5C8.4 50.3 14.8 56.2 21.2 62C36.3 53.7 52.3 41.9 62 28.5c-.3-2.5-.7-5-1-7.6" fill="#699635"></path>
         <path d="M22.4 54.6C16.1 48.8 9.8 43 3.5 37.3c15.7-8.9 28.9-21 38.6-35.3C48.4 7.8 54.7 13.5 61 19.3c-9.7 14.3-22.9 26.4-38.6 35.3" fill="#83bf4f"></path>
         <g fill="#699635">

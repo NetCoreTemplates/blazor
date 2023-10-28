@@ -1,38 +1,57 @@
-@page "/docs/{path?}"
+@page "/{Slug?}"
 @inherits AppComponentBase
-
+@inject MarkdownPages Markdown
+@inject AppConfig AppConfig
 @using Markdig
 @using Markdig.Syntax
 
-<link href="css/typography.css" rel="stylesheet" />
-<link href="css/markdown.css" rel="stylesheet" />
-
-@if (render.Response?.Preview != null)
+@if (doc != null)
 {
-    <div class="prose dark:prose-invert lg:prose-xl min-vh-100 m-3" data-md=@Path>
-        <div class="markdown-body">
-            @((MarkupString)render.Response!.Preview)
+    <PageTitle>@doc.Title</PageTitle>
+    
+    <section class="mb-16 md:mb-12">
+        <h1 class="text-4xl tracking-tight font-extrabold text-gray-900 dark:text-gray-50 sm:text-5xl md:text-6xl">
+            @doc.Title
+        </h1>
+    </section>
+    <div class="">
+        <div class="prose lg:prose-xl mb-24">
+            @BlazorHtml.Raw(doc.Preview)
         </div>
     </div>
 }
-else if (render.Error == null)
+else
 {
-    <Loading />
+    <div class="mt-3 mb-20 mx-auto max-w-fit">
+        @if (error != null)
+        {
+            <ErrorSummary Status=@error />
+        }
+        else
+        {
+            <Loading />
+        }
+    </div>
 }
-
-<ErrorSummary Status=@render.Error />
 
 @code {
     [Parameter]
-    public string? Path { get; set; }
+    public required string Slug { get; set; }
 
-    ApiResult<MarkdownFileInfo> render { get; set; } = new();
+    MarkdownFileInfo? doc;
+    ResponseStatus? error;
 
-    async Task loadDoc() => 
-        render = await MarkdownUtils.LoadDocumentAsync(Path!, doc => 
-            HostContext.VirtualFileSources.AssertFile($"/content/{doc.FileName}").ReadAllTextAsync());
+    void load()
+    {
+        doc = Markdown.GetBySlug(Slug);
+        if (doc == null)
+        {
+            error = new() { Message = $"_pages/{Slug}.md was not found" };
+            return;
+        }
+    }
 
-    protected override async Task OnInitializedAsync() => await loadDoc();
+    protected override void OnInitialized() => load();
 
-    protected override async Task OnParametersSetAsync() => await loadDoc();
+    protected override void OnParametersSet() => load();
 }

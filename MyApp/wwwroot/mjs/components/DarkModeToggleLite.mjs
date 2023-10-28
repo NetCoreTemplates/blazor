@@ -30,9 +30,8 @@ function toggleDarkMode() {
 }
 globalThis.toggleDarkMode = toggleDarkMode
 
-export function bind() {
-    renderDarkMode()
+export default {
+    load() {
+        renderDarkMode()
+    }
 }
-
-document.addEventListener('DOMContentLoaded', () => 
-    Blazor.addEventListener('enhancedload', bind))

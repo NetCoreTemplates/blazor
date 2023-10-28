@@ -12,12 +12,12 @@ function toggleSidebar() {
     }
 }
 
-export function bind() {
-    on('[data-toggle-sidebar]', {
-        click: toggleSidebar
-    })
-    hideSidebar()
-}
+on('[data-toggle-sidebar]', {
+    click: toggleSidebar
+})
 
-document.addEventListener('DOMContentLoaded', () =>
-    Blazor.addEventListener('enhancedload', hideSidebar))
+export default {
+    load() {
+        hideSidebar()
+    }
+}

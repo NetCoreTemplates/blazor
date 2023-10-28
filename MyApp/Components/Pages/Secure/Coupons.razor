@@ -2,10 +2,8 @@
 @attribute [Authorize(Roles = "Employee")]
 @rendermode RenderMode.InteractiveServer
 
-<Breadcrumbs class="mb-8">
-    <Breadcrumb>
-        Coupons
-    </Breadcrumb>
-</Breadcrumbs>
+<PageTitle>Coupons</PageTitle>
+
+<h1 class="mb-4 @Css.H1">Coupons</h1>
 
 <AutoQueryGrid Model="Coupon" Apis="Apis.AutoQuery<QueryCoupons,CreateCoupon,UpdateCoupon,DeleteCoupon>()" />

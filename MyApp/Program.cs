@@ -72,6 +72,7 @@ BlazorConfig.Set(new()
 {
     Services = app.Services,
     JSParseObject = JS.ParseObject,
+    IsDevelopment = app.Environment.IsDevelopment(),
     EnableLogging = app.Environment.IsDevelopment(),
     EnableVerboseLogging = app.Environment.IsDevelopment(),
 });

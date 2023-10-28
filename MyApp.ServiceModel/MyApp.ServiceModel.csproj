@@ -7,14 +7,11 @@
     </PropertyGroup>
 
     <ItemGroup>
+        <PackageReference Include="ServiceStack.Interfaces" Version="6.*" />
     </ItemGroup>
 
     <ItemGroup>
         <Folder Include="Types\" />
-    </ItemGroup>
-
-    <ItemGroup>
-      <ProjectReference Include="..\..\..\ServiceStack\ServiceStack\ServiceStack\src\ServiceStack.Interfaces\ServiceStack.Interfaces.csproj" />
     </ItemGroup>
 
 </Project>

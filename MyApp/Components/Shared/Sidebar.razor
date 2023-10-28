@@ -2,6 +2,8 @@
 @inject NavigationManager NavigationManager
 @inject IJSRuntime JS
 
+<div data-module="mjs/components/Sidebar.mjs"></div>
+
 <!-- Off-canvas menu for mobile, show/hide based on off-canvas menu state. -->
 <div class="mobile relative z-40 md:hidden" role="dialog" aria-modal="true" data-collapse="hidden">
     <div class="fixed inset-0 bg-gray-600 dark:bg-gray-400 bg-opacity-75 dark:bg-opacity-75" data-collapse="opacity-0" data-collapse-off="opacity-100"></div>
@@ -98,11 +100,6 @@
         </div>
     </div>
 </div>
-
-<script type="module">
-import { bind } from "./js/components/Sidebar.mjs"
-bind()
-</script>
 
 @code {
     const string MobileNavLinkActiveClass = "bg-gray-100 dark:bg-gray-800 text-gray-900 dark:text-gray-50";

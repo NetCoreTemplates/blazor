@@ -2,10 +2,7 @@
 title: Deployment with GitHub Actions
 summary: Configuring your GitHub repo for SSH and CDN deployments
 date: 2021-11-21
-WARN: During development Browser Cache needs to be disabled to refresh .md changes
 ---
-
-# ServiceStack GitHub Action Deployments
 
 The [release.yml](https://github.com/NetCoreTemplates/blazor-tailwind/blob/main/.github/workflows/release.yml) 
 in this template enables GitHub Actions CI deployment to a dedicated server with SSH access.

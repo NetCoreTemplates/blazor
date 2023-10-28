@@ -7,12 +7,14 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="ServiceStack" Version="6.*" />
-        <PackageReference Include="ServiceStack.Ormlite" Version="6.*" />
     </ItemGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\MyApp.ServiceModel\MyApp.ServiceModel.csproj" />
+        <Folder Include="Types\" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\..\..\ServiceStack\ServiceStack\ServiceStack\src\ServiceStack.Interfaces\ServiceStack.Interfaces.csproj" />
     </ItemGroup>
 
 </Project>
