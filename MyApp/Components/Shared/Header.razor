@@ -18,11 +18,15 @@
                         <NavLink href="privacy" class="p-4 flex items-center justify-start mw-full hover:text-sky-500 dark:hover:text-sky-400" ActiveClass="text-blue-700 dark:text-blue-300">Privacy</NavLink>
                     </li>
 
-                    <AuthorizeView>
+                    <AuthorizeView Roles="Admin">
                         <Authorized>
                             <li class="relative flex flex-wrap just-fu-start m-0">
                                 <NavLink href="admin" class="p-4 flex items-center justify-start mw-full hover:text-sky-500 dark:hover:text-sky-400" ActiveClass="text-blue-700 dark:text-blue-300">Admin</NavLink>
                             </li>
+                        </Authorized>
+                    </AuthorizeView>
+                    <AuthorizeView>
+                        <Authorized>
                             <li>
                                 <div class="mx-3 relative">
                                     <div>
