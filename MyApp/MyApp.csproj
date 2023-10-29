@@ -10,7 +10,6 @@
     <ItemGroup>
         <Using Include="MyApp" />
         <Using Include="ServiceStack" />
-        <Using Include="ServiceStack.Mvc" />
     </ItemGroup>
 
     <ItemGroup>
