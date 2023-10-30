@@ -31,7 +31,7 @@ services:
         container_name: ef_migration
         profiles:
             - ef
-        command: /bin/bash -c "mkdir -p App_Data && dotnet ef database update --project MyApp.csproj --startup-project MyApp.csproj --context MyApp.Data.ApplicationDbContext --configuration Debug 20231019062137_CreateIdentitySchema"
+        command: /bin/bash -c "mkdir -p App_Data && npm run migrate"
         volumes:
             - ./MyApp/:/app/ # Mount your app source if needed
             - app-mydb:/app/App_Data

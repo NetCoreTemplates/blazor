@@ -14,8 +14,7 @@ public class IdentityRevalidatingAuthenticationStateProvider : RevalidatingServe
 
     public IdentityRevalidatingAuthenticationStateProvider(
         ILoggerFactory loggerFactory,
-        IServiceScopeFactory scopeFactory,
-        IOptions<IdentityOptions> optionsAccessor)
+        IServiceScopeFactory scopeFactory, Microsoft.Extensions.Options.IOptions<IdentityOptions> optionsAccessor)
         : base(loggerFactory)
     {
         _scopeFactory = scopeFactory;
