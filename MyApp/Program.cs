@@ -3,12 +3,11 @@ using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.EntityFrameworkCore;
+using ServiceStack.Blazor;
 using MyApp;
-using MyApp.Components;
 using MyApp.Data;
 using MyApp.Identity;
-using ServiceStack;
-using ServiceStack.Blazor;
+using MyApp.Components;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -42,7 +41,7 @@ builder.Services.AddSingleton<IEmailSender, NoOpEmailSender>();
 var baseUrl = builder.Configuration["ApiBaseUrl"] ??
     (builder.Environment.IsDevelopment() ? "https://localhost:5001" : "http://" + IPAddress.Loopback);
 builder.Services.AddScoped(c => new HttpClient { BaseAddress = new Uri(baseUrl) });
-builder.Services.AddBlazorServerApiClient(baseUrl);
+builder.Services.AddBlazorServerIdentityApiClient(baseUrl);
 builder.Services.AddLocalStorage();
 
 var app = builder.Build();
