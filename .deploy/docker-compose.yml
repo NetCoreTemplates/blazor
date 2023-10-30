@@ -1,0 +1,48 @@
+version: "3.9"
+services:
+    app:
+        image: ghcr.io/${IMAGE_REPO}:${RELEASE_VERSION} 
+        restart: always                               
+        ports:                                         
+            - "8080"                                     
+        container_name: ${APP_NAME}_app                
+        environment:                                    
+            VIRTUAL_HOST: ${HOST_DOMAIN}
+            VIRTUAL_PORT: 8080 # New default ASP.NET port -> https://learn.microsoft.com/en-us/dotnet/core/compatibility/containers/8.0/aspnet-port
+            LETSENCRYPT_HOST: ${HOST_DOMAIN}           
+            LETSENCRYPT_EMAIL: ${LETSENCRYPT_EMAIL}    
+        volumes:
+            - app-mydb:/app/App_Data  
+
+    app-migration:
+        image: ghcr.io/${IMAGE_REPO}:${RELEASE_VERSION} 
+        restart: "no"                                  
+        container_name: ${APP_NAME}_app_migration       
+        profiles:                                      
+            - migration                                
+        command: --AppTasks=migrate                     
+        volumes:
+            - app-mydb:/app/App_Data  
+              
+              
+    ef-migration:
+        image: mcr.microsoft.com/dotnet/sdk:8.0
+        restart: "no"
+        container_name: ef_migration
+        profiles:
+            - ef
+        command: /bin/bash -c "ef database update --project MyApp\MyApp.csproj --startup-project MyApp\MyApp.csproj --context MyApp.Data.ApplicationDbContext --configuration Debug 20231019062137_CreateIdentitySchema"
+        volumes:
+            - app-mydb:/app/App_Data
+            - ./MyApp/Migrations:/app/Migrations # Mount your migration files
+            - ./MyApp/:/app/ # Mount your app source if needed
+        depends_on:
+            - app # Assuming the app service sets up the database
+
+networks:
+  default:
+    external: true                                     
+    name: nginx                                        
+
+volumes:
+    app-mydb:                                          
