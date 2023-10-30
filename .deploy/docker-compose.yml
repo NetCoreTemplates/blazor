@@ -29,14 +29,12 @@ services:
         image: mcr.microsoft.com/dotnet/sdk:8.0
         restart: "no"
         container_name: ef_migration
-        working_dir: MyApp
         profiles:
             - ef
         command: /bin/bash -c "mkdir -p App_Data && ef database update --project MyApp.csproj --startup-project MyApp.csproj --context MyApp.Data.ApplicationDbContext --configuration Debug 20231019062137_CreateIdentitySchema"
         volumes:
-            - app-mydb:/app/App_Data
-            - ./MyApp/Migrations:/app/Migrations # Mount your migration files
             - ./MyApp/:/app/ # Mount your app source if needed
+            - app-mydb:/app/App_Data
         depends_on:
             - app # Assuming the app service sets up the database
 
