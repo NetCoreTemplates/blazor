@@ -5,6 +5,7 @@
         <Nullable>enable</Nullable>
         <ImplicitUsings>enable</ImplicitUsings>
         <UserSecretsId>aspnet-MyApp-7b2ab71a-0b50-423f-969d-e35a9402b1b5</UserSecretsId>
+        <PublishProfile>DefaultContainer</PublishProfile>
     </PropertyGroup>
 
     <ItemGroup>
