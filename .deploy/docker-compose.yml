@@ -29,9 +29,10 @@ services:
         image: mcr.microsoft.com/dotnet/sdk:8.0
         restart: "no"
         container_name: ef_migration
+        working_dir: "/app"
         profiles:
             - ef
-        command: /bin/bash -c "mkdir -p App_Data && npm run migrate"
+        command: /bin/bash -c "mkdir -p App_Data && dotnet ef database update"
         volumes:
             - ./MyApp/:/app/ # Mount your app source if needed
             - app-mydb:/app/App_Data
