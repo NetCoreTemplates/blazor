@@ -32,7 +32,7 @@ services:
         working_dir: "/app"
         profiles:
             - ef
-        command: /bin/bash -c "mkdir -p App_Data && dotnet tool install --global dotnet-ef && dotnet ef database update"
+        command: /bin/bash -c "mkdir -p App_Data && export PATH=$PATH:/root/.dotnet/tools && dotnet tool install --global dotnet-ef && dotnet ef database update"
         volumes:
             - ./MyApp/:/app/ # Mount your app source if needed
             - app-mydb:/app/App_Data
