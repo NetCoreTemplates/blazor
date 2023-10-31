@@ -129,6 +129,7 @@ jobs:
           port: 22
           envs: APPTOKEN,USERNAME
           script: |
+            set -e
             echo $APPTOKEN | docker login ghcr.io -u $USERNAME --password-stdin
             cd ~/.deploy/${{ github.event.repository.name }}
             docker compose pull
