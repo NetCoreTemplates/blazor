@@ -133,7 +133,6 @@ jobs:
             echo $APPTOKEN | docker login ghcr.io -u $USERNAME --password-stdin
             cd ~/.deploy/${{ github.event.repository.name }}
             docker compose pull
-            docker compose up db-init
             docker compose up app-migration
 
       # Deploy Docker image with your application using `docker compose up` remotely

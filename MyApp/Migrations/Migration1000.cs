@@ -1,5 +1,7 @@
 using System.Data;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Storage;
 using MyApp.Data;
 using ServiceStack;
 using ServiceStack.DataAnnotations;
@@ -45,6 +47,9 @@ public class Migration1000 : MigrationBase
     {
         var efCoreContext = HostContext.Resolve<ApplicationDbContext>();
         efCoreContext.Database.EnsureCreated();
+        RelationalDatabaseCreator databaseCreator = 
+            (RelationalDatabaseCreator) efCoreContext.Database.GetService<IDatabaseCreator>();
+        databaseCreator.CreateTables();
         efCoreContext.Database.Migrate();
         Db.CreateTable<Coupon>();
         Db.CreateTable<Booking>();

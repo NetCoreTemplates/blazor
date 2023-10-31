@@ -24,19 +24,6 @@ services:
         volumes:
             - app-mydb:/app/App_Data  
 
-
-    db-init:
-        image: ghcr.io/${IMAGE_REPO}:${RELEASE_VERSION}
-        restart: "no"
-        user: root
-        profiles:
-            - db-init
-        working_dir: "/app"
-        entrypoint: ""
-        command: /bin/bash -c "chown 1654:1654 /app/App_Data"
-        volumes:
-            - app-mydb:/app/App_Data
-
 networks:
   default:
     external: true                                     
