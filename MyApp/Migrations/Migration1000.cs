@@ -46,10 +46,6 @@ public class Migration1000 : MigrationBase
     public override void Up()
     {
         var efCoreContext = HostContext.Resolve<ApplicationDbContext>();
-        efCoreContext.Database.EnsureCreated();
-        RelationalDatabaseCreator databaseCreator = 
-            (RelationalDatabaseCreator) efCoreContext.Database.GetService<IDatabaseCreator>();
-        databaseCreator.CreateTables();
         efCoreContext.Database.Migrate();
         Db.CreateTable<Coupon>();
         Db.CreateTable<Booking>();
