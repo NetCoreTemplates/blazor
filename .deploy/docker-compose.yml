@@ -23,21 +23,19 @@ services:
         command: --AppTasks=migrate                     
         volumes:
             - app-mydb:/app/App_Data  
-              
-              
-    ef-migration:
-        image: mcr.microsoft.com/dotnet/sdk:8.0
+
+
+    db-init:
+        image: ghcr.io/${IMAGE_REPO}:${RELEASE_VERSION}
         restart: "no"
-        container_name: ef_migration
-        working_dir: "/app"
+        user: root
         profiles:
-            - ef
-        command: /bin/bash -c "mkdir -p App_Data && export PATH=$PATH:/root/.dotnet/tools && dotnet tool install --global dotnet-ef && dotnet ef database update"
+            - db-init
+        working_dir: "/app"
+        entrypoint: ""
+        command: /bin/bash -c "chown 1654:1654 /app/App_Data"
         volumes:
-            - ./MyApp/:/app/ # Mount your app source if needed
             - app-mydb:/app/App_Data
-        depends_on:
-            - app # Assuming the app service sets up the database
 
 networks:
   default:

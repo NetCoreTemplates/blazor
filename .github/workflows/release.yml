@@ -133,6 +133,7 @@ jobs:
             echo $APPTOKEN | docker login ghcr.io -u $USERNAME --password-stdin
             cd ~/.deploy/${{ github.event.repository.name }}
             docker compose pull
+            docker compose up db-init
             docker compose up ef-migration
             docker compose up app-migration
 
