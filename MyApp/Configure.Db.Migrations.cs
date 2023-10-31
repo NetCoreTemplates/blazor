@@ -22,7 +22,7 @@ public class ConfigureDbMigrations : IHostingStartup
                 using (var scope = scopeFactory.CreateScope())
                 {
                     using var db = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
-                    db.Database.Migrate();
+                    db.Database.EnsureCreated();
                 }
                 // Run OrmLite Migrations
                 migrator.Run();

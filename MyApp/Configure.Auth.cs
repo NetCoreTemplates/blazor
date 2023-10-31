@@ -25,6 +25,11 @@ public class ConfigureAuth : IHostingStartup
         var scopeFactory = app.ApplicationServices.GetRequiredService<IServiceScopeFactory>();
 
         using var scope = scopeFactory.CreateScope();
+        // Ensure EF Migrations has created Identity tables before using them.
+        var dbContext = scope.ServiceProvider.GetService<ApplicationDbContext>();
+        var dbCreated = await dbContext?.Database.EnsureCreatedAsync()!;
+        if (!dbCreated)
+            return;
         //initializing custom roles 
         var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>();
         var userManager = scope.ServiceProvider.GetRequiredService<UserManager<ApplicationUser>>();
