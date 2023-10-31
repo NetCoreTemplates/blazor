@@ -1,0 +1,2 @@
+App writable folder for storing embedded databases like SQLite or other writable files.
+For Docker Apps it's common to mount this as an external volume so App Data is preserved across deployments and easily replicated.
