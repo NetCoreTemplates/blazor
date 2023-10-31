@@ -1,4 +1,6 @@
 using System.Data;
+using Microsoft.EntityFrameworkCore;
+using MyApp.Data;
 using ServiceStack;
 using ServiceStack.DataAnnotations;
 using ServiceStack.OrmLite;
@@ -41,6 +43,8 @@ public class Migration1000 : MigrationBase
 
     public override void Up()
     {
+        var efCoreContext = HostContext.Resolve<ApplicationDbContext>();
+        efCoreContext.Database.Migrate();
         Db.CreateTable<Coupon>();
         Db.CreateTable<Booking>();
 
