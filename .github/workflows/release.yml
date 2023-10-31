@@ -135,7 +135,7 @@ jobs:
             docker compose pull
             export APP_ID=$(docker compose run --entrypoint "id -u" --rm app)
             docker compose run --entrypoint "chown $APP_ID:$APP_ID /app/App_Data" --user root --rm app
-            docker compose up app-migration
+            docker compose up app-migration --exit-code-from app-migration
 
       # Deploy Docker image with your application using `docker compose up` remotely
       - name: remote docker-compose up via ssh
