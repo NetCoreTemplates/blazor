@@ -17,12 +17,14 @@ public class ConfigureDbMigrations : IHostingStartup
             var migrator = new Migrator(appHost.Resolve<IDbConnectionFactory>(), typeof(Migration1000).Assembly);
             AppTasks.Register("migrate", _ =>
             {
+                // Run EF Migrations
                 var scopeFactory = appHost.GetApplicationServices().GetRequiredService<IServiceScopeFactory>();
                 using (var scope = scopeFactory.CreateScope())
                 {
                     using var db = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
                     db.Database.Migrate();
                 }
+                // Run OrmLite Migrations
                 migrator.Run();
             });
             AppTasks.Register("migrate.revert", args => migrator.Revert(args[0]));
