@@ -130,6 +130,7 @@ public class QueryCoupons : QueryDb<Coupon>
     public string? Id { get; set; }
 }
 
+/*
 [Tag("bookings")]
 [Route("/coupons", "POST")]
 [ValidateHasRole(Roles.Employee)]
@@ -164,16 +165,4 @@ public class DeleteCoupon : IDeleteDb<Coupon>, IReturnVoid
 {
     public required string Id { get; set; }
 }
-
-public class AdminData : IGet, IReturn<AdminDataResponse> { }
-
-public class PageStats
-{
-    public string Label { get; set; }
-    public int Total { get; set; }
-}
-
-public class AdminDataResponse
-{
-    public List<PageStats> PageStats { get; set; }
-}
+*/

@@ -133,7 +133,7 @@
     async Task removeTodo(long id)
     {
         todos.RemoveAll(x => x.Id == id);
-        var api = await ApiAsync(new DeleteTodo { Id = id });
+        var api = await ApiAsync(new DeleteTodos { Ids = [id] });
         errorStatus = api.Error;
         await refreshTodos();
     }

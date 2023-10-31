@@ -31,13 +31,6 @@ public class UpdateTodo : IPut, IReturn<Todo>
 }
 
 [Tag("todos")]
-[Route("/todos/{Id}", "DELETE")]
-public class DeleteTodo : IDelete, IReturnVoid
-{
-    public long Id { get; set; }
-}
-
-[Tag("todos")]
 [Route("/todos", "DELETE")]
 public class DeleteTodos : IDelete, IReturnVoid
 {

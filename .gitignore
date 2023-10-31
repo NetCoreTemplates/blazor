@@ -12,6 +12,7 @@
 *.db
 *.db-shm
 *.db-wal
+.idea/
 
 # User-specific files (MonoDevelop/Xamarin Studio)
 *.userprefs
