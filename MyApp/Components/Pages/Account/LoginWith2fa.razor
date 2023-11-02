@@ -12,8 +12,8 @@
 
 <PageTitle>Two-factor authentication</PageTitle>
 
-<h1 class="@Css.H1">Two-factor authentication</h1>
-<div class="max-w-xl">
+<div class="mt-8 mx-auto max-w-lg">
+    <h1 class="@Css.H1">Two-factor authentication</h1>
     <StatusMessage Message="@_message" />
     <p class="my-4">Your login is protected with an authenticator app. Enter your authenticator code below.</p>
     <div class="mt-3 shadow overflow-hidden sm:rounded-md">
@@ -36,7 +36,7 @@
                     <div class="flex items-center justify-between">
                         <div class="flex items-center">
                             <InputCheckbox id="remember-machine" @bind-Value="Input.RememberMachine" class="@Css.Checkbox" />
-                            <label for="remember-machine" class="ml-2 block text-sm text-gray-900 select-none">
+                            <label for="remember-machine" class="ml-2 block text-sm text-gray-900 dark:text-gray-50 select-none">
                                 Remember this machine
                             </label>
                         </div>

@@ -24,7 +24,7 @@
     border-left-style: solid;
 }
 
-.dark :not(:where([class~="not-prose"] *)), .dark .prose :where(td):not(:where([class~="not-prose"] *)) {
+.dark .prose :not(:where([class~="not-prose"] *)), .dark .prose :where(td):not(:where([class~="not-prose"] *)) {
     color: rgb(209 213 219); /*text-gray-300*/
 }
 .dark .prose :where(h1,h2,h3,h4,h5,h6,th):not(:where([class~="not-prose"] *)) {
