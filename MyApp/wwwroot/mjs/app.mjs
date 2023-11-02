@@ -25,4 +25,7 @@ document.addEventListener('DOMContentLoaded', () =>
     Blazor.addEventListener('enhancedload', () => {
         remount()
         globalThis.hljs?.highlightAll()
+        if (localStorage.getItem('color-scheme') == 'dark') {
+            document.documentElement.classList.add('dark')
+        }
     }))

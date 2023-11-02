@@ -1,4 +1,4 @@
-﻿@using Microsoft.AspNetCore.Authentication
+@using Microsoft.AspNetCore.Authentication
 @using Microsoft.AspNetCore.Identity
 @using MyApp.Components.Pages.Account
 @using MyApp.Data
@@ -23,12 +23,12 @@ else
         <div>
             <AntiforgeryToken />
             <input type="hidden" name="ReturnUrl" value="@ReturnUrl" />
-            <p>
+            <div class="space-x-2">
                 @foreach (var provider in _externalLogins!)
                 {
                     <button type="submit" class="@Css.SecondaryButton" name="provider" value="@provider.Name" title="Log in using your @provider.DisplayName account">@provider.DisplayName</button>
                 }
-            </p>
+            </div>
         </div>
     </form>
 }
