@@ -1,157 +1,179 @@
 ---
-title: Deployment with GitHub Actions
-summary: Configuring your GitHub repo for SSH and CDN deployments
-date: 2021-11-21
+title: Deployment Guide
 ---
 
-The [release.yml](https://github.com/NetCoreTemplates/blazor-tailwind/blob/main/.github/workflows/release.yml) 
-in this template enables GitHub Actions CI deployment to a dedicated server with SSH access.
+# Introduction
 
-## Overview
-`release.yml` is designed to work with a ServiceStack app deploying directly to a single server via SSH. A docker image is built and stored on GitHub's `ghcr.io` docker registry when a GitHub Release is created.
+In today's DevOps ecosystem, GitHub Actions stand out as an invaluable asset for automating CI/CD workflows directly within your GitHub repository. The introduction of .NET 8 takes this a step further, offering a streamlined approach to generating Docker images through the `<PublishProfile>DefaultContainer</PublishProfile>` setting in your `.csproj` files. This ensures consistent application packaging, making it deployment-ready by just using `dotnet publish`.
 
-GitHub Actions specified in `release.yml` then copy files remotely via scp and use `docker-compose` to run the app remotely via SSH.
+The new ServiceStack templates in .NET 8 bring additional flexibility. They are designed with cloud-agnosticism in mind, utilizing foundational tools like Docker for containerization and SSH for secure deployment. This makes it possible to deploy your applications to any Linux server, irrespective of the cloud provider you're using.
 
-## What's the process of `release.yml`?
+This guide aims to walk you through the hosting setup and the GitHub Actions release process as introduced in the new .NET 8 and ServiceStack templates.
 
-![](https://raw.githubusercontent.com/ServiceStack/docs/master/docs/images/mix/release-ghr-vanilla-diagram.png)
 
-## Deployment server setup
-To get this working, a server needs to be setup with the following:
 
-- SSH access
-- docker
-- docker-compose
-- ports 443 and 80 for web access of your hosted application
+# The Anatomy of the GitHub Actions Workflow
 
-This can be your own server or any cloud hosted server like Digital Ocean, AWS, Azure etc.
+GitHub Actions workflows are defined in YAML files, and they provide a powerful way to automate your development process. This guide will take you through the key sections of the workflow to give you a comprehensive understanding of how it functions.
 
-When setting up your server, you'll want to use a dedicated SSH key for access to be used by GitHub Actions. GitHub Actions will need the *private* SSH key within a GitHub Secret to authenticate. This can be done via ssh-keygen and copying the public key to the authorized clients on the server.
+## Permissions
 
-To let your server handle multiple ServiceStack applications and automate the generation and management of TLS certificates, an additional docker-compose file is provided in this template, `nginx-proxy-compose.yml`. This docker-compose file is ready to run and can be copied to the deployment server.
+In this workflow, two permissions are specified:
 
-For example, once copied to remote `~/nginx-proxy-compose.yml`, the following command can be run on the remote server.
+- `packages: write`: This allows the workflow to upload Docker images to GitHub Packages.
+- `contents: write`: This is required to access the repository content.
 
-```
-docker-compose -f ~/nginx-proxy-compose.yml up -d
-```
+Specifying permissions ensures that the GitHub Actions runner has just enough access to perform the tasks in the workflow.
 
-This will run an nginx reverse proxy along with a companion container that will watch for additional containers in the same docker network and attempt to initialize them with valid TLS certificates.
+## Jobs
 
-### GitHub Actions secrets
+This workflow consists of two jobs: `push_to_registry` and `deploy_via_ssh`.
 
-The `release.yml` uses the following secrets.
+### push_to_registry
 
-| Required Secrets | Description |
-| -- | -- |
-| `DEPLOY_API` | Hostname used to SSH deploy .NET App to, this can either be an IP address or subdomain with A record pointing to the server |
-| `DEPLOY_USERNAME` | Username to log in with via SSH e.g, **ubuntu**, **ec2-user**, **root** |
-| `DEPLOY_KEY` | SSH private key used to remotely access deploy .NET App |
-| `LETSENCRYPT_EMAIL` | Email required for Let's Encrypt automated TLS certificates |
+This job runs on an Ubuntu 22.04 runner and is responsible for pushing the Docker image to the GitHub Container Registry. It proceeds only if the previous workflow did not fail. The job includes the following steps:
 
-To also enable deploying static assets to a CDN:
+1. **Checkout**: Retrieves the latest or specific tag of the repository's code.
+2. **Env variable assignment**: Assigns necessary environment variables for subsequent steps.
+3. **Login to GitHub Container Registry**: Authenticates to the GitHub Container Registry.
+4. **Setup .NET Core**: Prepares the environment for .NET 8.
+5. **Build and push Docker image**: Creates and uploads the Docker image to GitHub Container Registry (ghcr.io).
 
-| Optional Secrets | Description |
-| -- | -- |
-| `DEPLOY_CDN` | Hostname where static **/wwwroot** assets should be deployed to |
+### deploy_via_ssh
 
-These secrets can use the [GitHub CLI](https://cli.github.com/manual/gh_secret_set) for ease of creation. Eg, using the GitHub CLI the following can be set.
+This job also runs on an Ubuntu 22.04 runner and depends on the successful completion of the `push_to_registry` job. Its role is to deploy the application via SSH. The steps involved are:
+
+1. **Checkout**: Retrieves the latest or specific tag of the repository's code.
+2. **Repository name fix and env**: Sets up necessary environment variables.
+3. **Create .env file**: Generates a .env file required for deployment.
+4. **Copy files to target server via scp**: Securely copies files to the remote server.
+5. **Run remote db migrations**: Executes database migrations on the remote server.
+6. **Remote docker-compose up via ssh**: Deploys the Docker image with the application.
+
+## Triggers (on)
+
+The workflow is designed to be triggered by:
+
+1. **New GitHub Release**: Activates when a new release is published.
+2. **Successful Build action**: Runs whenever the specified Build action completes successfully on the main or master branches.
+3. **Manual trigger**: Allows for rollback to a specific release or redeployment of the latest release, with an input for specifying the version tag.
+
+Understanding these sections will help you navigate and modify the workflow as per your needs, ensuring a smooth and automated deployment process.
+
+## Deployment Server Setup Expanded
+
+### Ubuntu as the Reference Point
+
+Though our example leverages Ubuntu, it's important to emphasize that the primary requirements for this deployment architecture are a Linux operating system, Docker, and SSH. Many popular Linux distributions like CentOS, Fedora, or Debian will work just as efficiently, provided they support Docker and SSH.
+
+### The Crucial Role of SSH in GitHub Actions
+
+**SSH** (Secure SHell) is not just a protocol to remotely access your server's terminal. In the context of GitHub Actions:
+
+- SSH offers a **secure communication channel** between GitHub Actions and your Linux server.
+- Enables GitHub to **execute commands directly** on your server.
+- Provides a mechanism to **transfer files** (like Docker-compose configurations or environment files) from the GitHub repository to the server.
+
+By generating a dedicated SSH key pair specifically for GitHub Actions (as detailed in the previous documentation), we ensure a secure and isolated access mechanism. Only the entities possessing the private key (in this case, only GitHub Actions) can initiate an authenticated connection.
+
+### Docker & Docker-Compose: Powering the Architecture
+
+**Docker** encapsulates your ServiceStack application into containers, ensuring consistency across different environments. Some of its advantages include:
+
+- **Isolation**: Your application runs in a consistent environment, irrespective of where Docker runs.
+- **Scalability**: Easily replicate containers to handle more requests.
+- **Version Control for Environments**: Create, maintain, and switch between different container images.
+
+**Docker-Compose** extends Docker's benefits by orchestrating the deployment of multi-container applications:
+
+- **Ease of Configuration**: Describe your application's entire stack, including the application, database, cache, etc., in a single YAML file.
+- **Consistency Across Multiple Containers**: Ensures that containers are spun up in the right order and with the correct configurations.
+- **Simplifies Commands**: Instead of a long string of Docker CLI commands, a single `docker-compose up` brings your whole stack online.
+
+### NGINX Reverse Proxy: The Silent Workhorse
+
+Using an **nginx reverse proxy** in this deployment design offers several powerful advantages:
+
+- **Load Balancing**: Distributes incoming requests across multiple ServiceStack applications, ensuring optimal resource utilization.
+- **TLS Management**: Together with its companion container, nginx reverse proxy automates the process of obtaining and renewing TLS certificates. This ensures your applications are always securely accessible over HTTPS.
+- **Routing**: Directs incoming traffic to the correct application based on the domain or subdomain.
+- **Performance**: Caches content to reduce load times and reduce the load on your ServiceStack applications.
+
+With an nginx reverse proxy, you can host multiple ServiceStack (or non-ServiceStack) applications on a single server while providing each with its domain or subdomain.
+
+
+
+## Step-by-Step Implementation
+
+### 1. Create Your ServiceStack Application
+
+Start by creating your ServiceStack application. You can utilize the .NET `x` tool from ServiceStack or directly use a template from the `NetCoreTemplates` GitHub Organization. Here's how you can do it with the `x` tool:
 
 ```bash
-gh secret set DEPLOY_API -b"<DEPLOY_API>"
-gh secret set DEPLOY_USERNAME -b"<DEPLOY_USERNAME>"
-gh secret set DEPLOY_KEY < key.pem # DEPLOY_KEY
-gh secret set LETSENCRYPT_EMAIL -b"<LETSENCRYPT_EMAIL>"
-gh secret set DEPLOY_CDN -b"<DEPLOY_CDN>"
+dotnet tool install --global x
+x new web YourApp
 ```
 
-These secrets are used to populate variables within GitHub Actions and other configuration files.
+Replace `YourApp` with your desired project name. This will generate a new ServiceStack application with the necessary GitHub Action workflows already incorporated.
 
-## Client UI Deployment
+### 2. Configure DNS for Your Application
 
-The Blazor Client application is built and deployed to GitHub Pages during the `release.yml` workflow process by committing 
-the result of `vite build` to `gh-pages` branch in the repository.
+You need a domain to point to your Linux server. Create an A Record in your DNS settings that points to the IP address of your Linux server:
 
-### CI .csproj After Build Tasks
+- **Subdomain**: e.g., `app.yourdomain.com`
+- **Record Type**: A
+- **Value/Address**: IP address of your Linux server
 
-The Host Server `.csproj` includes post build instructions populated by GitHub Actions when publishing **Client** assets to CDN 
-by first copying the generated `index.html` home page into `404.html` in order to enable full page reloads to use Blazor's App 
-client routing:
+This ensures that any requests to `app.yourdomain.com` are directed to your server.
 
-```xml
-<PropertyGroup>
-    <ClientDir>$(MSBuildProjectDirectory)/../MyApp.Client</ClientDir>
-    <WwwRoot>$(ClientDir)/wwwroot</WwwRoot>
-</PropertyGroup>
+### 3. Setting Up GitHub Secrets
 
-<!-- Populated in release.yml with GitHub Actions secrets -->
-<Target Name="DeployApi" AfterTargets="Build" Condition="$(DEPLOY_API) != ''">
-    <Exec Command="echo DEPLOY_API=$(DEPLOY_API)" />
+Navigate to your GitHub repository's settings, find the "Secrets and variables" section, and add the following secrets:
 
-    <!-- Update Production settings with DEPLOY_API Blazor UI should use  -->
-    <WriteLinesToFile File="$(WwwRoot)/appsettings.Production.json" 
-        Lines="$([System.IO.File]::ReadAllText($(WwwRoot)/appsettings.Production.json).Replace('{DEPLOY_API}',$(DEPLOY_API)))" 
-        Overwrite="true" Encoding="UTF-8" />
+- **`DEPLOY_HOST`**: The IP address or hostname of your server.
+- **`DEPLOY_USERNAME`**: The username for SSH login.
+- **`DEPLOY_KEY`**: The private key you generated for GitHub Actions to SSH into your server.
+- **`LETSENCRYPT_EMAIL`**: Your email address for Let's Encrypt notifications.
 
-    <!-- 404.html SPA fallback (supported by GitHub Pages, Cloudflare & Netlify CDNs) -->
-    <Copy SourceFiles="$(WwwRoot)/index.html" 
-        DestinationFiles="$(WwwRoot)/wwwroot/404.html" />
+Use the GitHub CLI for a quicker setup, as illustrated in the previous guidelines.
 
-    <!-- define /api proxy routes (supported by Cloudflare or Netlify CDNs)  -->
-    <WriteLinesToFile File="$(WwwRoot)/_redirects" 
-        Lines="$([System.IO.File]::ReadAllText($(WwwRoot)/_redirects).Replace('{DEPLOY_API}',$(DEPLOY_API)))" 
-        Overwrite="true" Encoding="UTF-8" />
-</Target>
-<Target Name="DeployCdn" AfterTargets="Build" Condition="$(DEPLOY_CDN) != ''">
-    <Exec Command="echo DEPLOY_CDN=$(DEPLOY_CDN)" />
+### 4. Push to Main Branch to Trigger Deployment
 
-    <!-- Define custom domain name that CDN should use -->
-    <Exec Condition="$(DEPLOY_CDN) != ''" Command="echo $(DEPLOY_CDN) &gt; $(WwwRoot)/CNAME" />
-</Target>
+With everything set up, pushing code to the main branch of your repository will trigger the GitHub Action workflow, initiating the deployment process:
+
+```bash
+git add .
+git commit -m "Initial commit"
+git push origin main
 ```
 
-Whilst the `_redirects` file is a convention supported by many [popular Jamstack CDNs](https://jamstack.wtf/#deployment)
-that sets up a new rule that proxies `/api*` requests to where the production .NET App is deployed to in order 
-for API requests to not need CORS:
+### 5. Verifying the Deployment
 
-```
-/api/*  {DEPLOY_API}/api/:splat  200
-```
+After the GitHub Actions workflow completes, you can verify the deployment by:
 
-By default this template doesn't use the `/api` proxy route & makes CORS API requests so it can be freely hosted 
-on GitHub pages CDN.
+- Checking the workflow's logs in your GitHub repository to ensure it completed successfully.
+- Navigating to your application's URL (e.g., `https://app.yourdomain.com`) in a web browser. You should see your ServiceStack application up and running with a secure HTTPS connection.
 
-## Pushing updates and rollbacks
 
-By default, deployments of both the **Client** and **Server** occur on commit to your main branch. A new Docker image for your 
-ServiceStack API is produced, pushed to GHCR.io and hosted on your Linux server with Docker Compose.
-Your Blazor WASM UI is built and pushed to the repository GitHub Pages.
 
-The template also will run the release process on the creation of a GitHub Release making it easier to switch to manual production releases.
+# Additional Resources
 
-Additionally, the `release.yml` workflow can be run manually specifying a version. This enables production rollbacks based on previously tagged releases.
-A release must have already been created for the rollback build to work, it doesn't create a new Docker build based on previous code state, only redeploys as existing Docker image.
+## ServiceStack
 
-## No CORS Hosting Options
+- **[Official Documentation](https://docs.servicestack.net/)**: Comprehensive guides and best practices for ServiceStack.
+- **[ServiceStack Website](https://servicestack.net/)**: Explore features, templates, and client libraries.
 
-The `CorsFeature` needs to be enabled when adopting our recommended deployment configuration of having static 
-`/wwwroot` assets hosted from a CDN in order to make cross-domain requests to your .NET APIs. 
+## Docker & Docker-Compose
 
-### Using a CDN Proxy
-Should you want to, our recommended approach to avoid your App making CORS requests is to define an `/api` proxy route
-on your CDN to your `$DEPLOY_API` server. 
+- **[Docker Documentation](https://docs.docker.com/)**: Core concepts, CLI usage, and practical applications.
+- **[Docker-Compose Documentation](https://docs.docker.com/compose/)**: Define and manage multi-container applications.
 
-To better support this use-case, this template includes populating the `_redirects` file used by popular CDNs like
-[Cloudflare proxy redirects](https://developers.cloudflare.com/pages/platform/redirects) and
-[Netlify proxies](https://docs.netlify.com/routing/redirects/rewrites-proxies/#proxy-to-another-service) to define
-redirect and proxy rules. For AWS CloudFront you would need to define a 
-[Behavior for a custom origin](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/RequestAndResponseBehaviorCustomOrigin.html).
+## GitHub Actions
 
-### No CDN
+- **[GitHub Actions Documentation](https://docs.github.com/en/actions)**: Creating workflows, managing secrets, and automation tips.
+- **[Starter Workflows](https://github.com/actions/starter-workflows)**: Templates for various languages and tools.
 
-Of course the easiest solution is to not need CORS in the first place by not deploying to a CDN and serving both **Server**
-and Blazor Client **UI** from your .NET App. This would be the preferred approach when deploying within an Intranet where
-network speeds are much faster in order for initial load times to be heavily reduced. 
+## SSH & Security
 
-However when deploying to a public site on the Internet we'd highly recommend deploying Blazor WASM's static assets to a CDN 
-so load times can be reduced as much as possible.
+- **[SSH Key Management](https://www.ssh.com/academy/ssh/keygen)**: Guidelines on generating and managing SSH keys.
+- **[GitHub Actions Secrets](https://docs.github.com/en/actions/security-guides/encrypted-secrets)**: Securely store and use sensitive information.
