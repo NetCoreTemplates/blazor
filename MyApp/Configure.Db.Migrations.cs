@@ -26,11 +26,11 @@ public class ConfigureDbMigrations : IHostingStartup
                 using (var scope = scopeFactory.CreateScope())
                 {
                     using var db = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
-                    var dbJustCreated = db.Database.EnsureCreated();
+                    db.Database.EnsureCreated();
                     db.Database.Migrate();
 
                     // Only seed users if DB was just created
-                    if (dbJustCreated)
+                    if (!db.Users.Any())
                     {
                         log.LogInformation("Adding Seed Users...");
                         AddSeedUsers(scope.ServiceProvider).Wait();
