@@ -25,7 +25,7 @@ else
     <h3 class="@Css.H3">Configure authenticator app</h3>
 
     <div class="max-w-xl" data-module="pages/Account/Manage/EnableAuthenticator.mjs">
-        <StatusMessage />
+        <StatusMessage class="mb-3" />
         <div>
             <p>To use an authenticator app go through the following steps:</p>
             <ol class="list-decimal ml-8">
@@ -79,18 +79,6 @@ else
             </ol>
         </div>
     </div>
-    <script src="js/qrcode.min.js"></script>
-    <script>
-    (() => {
-        function render() {
-            new QRCode(document.getElementById("qrCode"), document.getElementById('qrCodeData').getAttribute('data-url'))
-        }
-        document.addEventListener('DOMContentLoaded', () => {
-            Blazor.addEventListener('enhancedload', render)
-        })
-        render()
-    })()
-    </script>
 }
 
 @code {

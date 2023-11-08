@@ -20,7 +20,7 @@
         <h1 class="mb-3 @Css.H1">
             Use a local account to log in.
         </h1>
-        <StatusMessage Message="@errorMessage" />
+        <StatusMessage class="mb-3" Message="@errorMessage" />
         <section class="mt-4 sm:shadow overflow-hidden sm:rounded-md">
             <EditForm id="account" Model="Input" method="post" OnValidSubmit="LoginUser" FormName="login">
                 <div class="px-4 bg-white dark:bg-black sm:p-6">

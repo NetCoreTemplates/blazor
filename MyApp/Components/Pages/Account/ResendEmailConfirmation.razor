@@ -16,12 +16,11 @@
 
 <PageTitle>Resend email confirmation</PageTitle>
 
-
-<div class="max-w-xl">
+<div class="mt-8 mx-auto max-w-lg">
     <h1 class="mb-3 @Css.H1">Resend email confirmation</h1>
     <h3 class="@Css.H3">Enter your email.</h3>
 
-    <StatusMessage Message="@_message" />
+    <StatusMessage class="mb-3" Message="@_message" />
     <EditForm Model="Input" FormName="resend-email-confirmation" OnValidSubmit="OnValidSubmitAsync" method="post">
         <DataAnnotationsValidator />
         <ValidationSummary class="@Css.ValidationSummary" />
