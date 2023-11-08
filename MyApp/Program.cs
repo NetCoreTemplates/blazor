@@ -1,10 +1,10 @@
 using System.Net;
 using Microsoft.AspNetCore.Components.Authorization;
+using Microsoft.AspNetCore.DataProtection;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.EntityFrameworkCore;
 using ServiceStack.Blazor;
-using MyApp;
 using MyApp.Data;
 using MyApp.Identity;
 using MyApp.Components;
@@ -23,7 +23,7 @@ builder.Services.AddScoped<AuthenticationStateProvider, IdentityRevalidatingAuth
 builder.Services.AddAuthentication(IdentityConstants.ApplicationScheme)
     .AddIdentityCookies();
 builder.Services.AddDataProtection()
-    .PersistKeysToFileSystem(new DirectoryInfo(@"App_Data"));
+    .PersistKeysToFileSystem(new DirectoryInfo("App_Data"));
 
 // $ dotnet ef migrations add CreateIdentitySchema
 // $ dotnet ef database update
