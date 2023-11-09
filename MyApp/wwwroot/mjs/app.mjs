@@ -1,6 +1,5 @@
-import { $1, $$ } from "@servicestack/client"
 export function mountAll(opt) {
-    $$('[data-module]').forEach(async el => {
+    document.querySelectorAll('[data-module]').forEach(async el => {
         let modulePath = el.getAttribute('data-module')
         if (!modulePath) return
         if (!modulePath.startsWith('/') && !modulePath.startsWith('.')) {
