@@ -8,7 +8,7 @@
 
 <PageTitle>Personal Data</PageTitle>
 
-<h3 class="@Css.H3">Personal Data</h3>
+<Heading3>Personal Data</Heading3>
 
 <div class="max-w-xl">
     <StatusMessage />
@@ -20,10 +20,10 @@
         </p>
         <form id="download-data" action="/Account/Manage/DownloadPersonalData" method="post">
             <AntiforgeryToken />
-            <button class="@Css.PrimaryButton" type="submit">Download</button>
+            <PrimaryButton type="submit">Download</PrimaryButton>
         </form>
         <p>
-            <a id="delete" href="/Account/Manage/DeletePersonalData" class="@Css.DangerButton">Delete</a>
+            <PrimaryButton Style="ButtonStyle.Red" id="delete" href="/Account/Manage/DeletePersonalData">Delete</PrimaryButton>
         </p>
     </div>
 </div>

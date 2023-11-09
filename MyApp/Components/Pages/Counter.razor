@@ -3,11 +3,11 @@
 
 <PageTitle>Counter</PageTitle>
 
-<h1 class="@Css.H1">Counter</h1>
+<Heading1>Counter</Heading1>
 
 <p class="my-4">Current count: @currentCount</p>
 
-<button class="@Css.PrimaryButton" @onclick="IncrementCount">Click me</button>
+<PrimaryButton @onclick="IncrementCount">Click me</PrimaryButton>
 
 @code {
     private int currentCount = 0;

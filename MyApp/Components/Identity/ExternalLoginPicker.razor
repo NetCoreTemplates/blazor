@@ -11,9 +11,9 @@
 {
     <div>
         <p>
-            There are no external authentication services configured. 
-            See this <a class="@Css.Link" href="https://go.microsoft.com/fwlink/?LinkID=532715">article
-            about setting up this ASP.NET application to support logging in via external services</a>.
+            There are no external authentication services configured.
+            See this <HyperLink href="https://go.microsoft.com/fwlink/?LinkID=532715">article
+            about setting up this ASP.NET application to support logging in via external services</HyperLink>.
         </p>
     </div>
 }
@@ -26,7 +26,7 @@ else
             <div class="space-x-2">
                 @foreach (var provider in _externalLogins!)
                 {
-                    <button type="submit" class="@Css.SecondaryButton" name="provider" value="@provider.Name" title="Log in using your @provider.DisplayName account">@provider.DisplayName</button>
+                    <button type="submit" class="@SecondaryButton.Classes" name="provider" value="@provider.Name" title="Log in using your @provider.DisplayName account">@provider.DisplayName</button>
                 }
             </div>
         </div>

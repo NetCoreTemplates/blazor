@@ -20,40 +20,40 @@
 
 <PageTitle>Register</PageTitle>
 
-<h1 class="mb-3 @Css.H1">Register</h1>
+<div class="mt-8 mx-auto max-w-lg">
+    <Heading1>Register</Heading1>
 
-<div class="max-w-xl">
     <StatusMessage Message="@Message" />
     <div class="mt-3 shadow overflow-hidden sm:rounded-md">
         <div class="px-4 bg-white dark:bg-black sm:p-6">
             <EditForm id="registerForm" Model="Input" asp-route-returnUrl="@ReturnUrl" method="post" OnValidSubmit="RegisterUser" FormName="register">
-                <h3 class="@Css.H3">Create a new account.</h3>
+                <Heading3>Create a new account.</Heading3>
                 <DataAnnotationsValidator />
-                <ValidationSummary class="@Css.ValidationSummary" />
+                <ValidationSummary class="mb-3 text-danger text-center font-semibold" />
                 <div class="flex flex-col gap-y-4">
                     <div>
-                        <label for="email" class="@Css.InputLabel">Email</label>
+                        <label for="email" class="@TextInput.LabelClasses">Email</label>
                         <div class="mt-1 relative rounded-md shadow-sm">
-                            <InputText id="email" type="text" @bind-Value="Input.Email" class="@Css.InputText" autocomplete="username" aria-required="true" placeholder="name@example.com" />
+                            <InputText id="email" type="text" @bind-Value="Input.Email" class="@TextInput.InputClasses" autocomplete="username" aria-required="true" placeholder="name@example.com" />
                         </div>
-                        <ValidationMessage For="() => Input.Email" class="@Css.ValidationMessage" />
+                        <ValidationMessage For="() => Input.Email" class="mt-2 text-danger text-sm" />
                     </div>
                     <div>
-                        <label for="password" class="@Css.InputLabel">Password</label>
+                        <label for="password" class="@TextInput.LabelClasses">Password</label>
                         <div class="mt-1 relative rounded-md shadow-sm">
-                            <InputText id="password" type="password" @bind-Value="Input.Password" class="@Css.InputText" autocomplete="new-password" aria-required="true" placeholder="password" />
+                            <InputText id="password" type="password" @bind-Value="Input.Password" class="@TextInput.InputClasses" autocomplete="new-password" aria-required="true" placeholder="password" />
                         </div>
-                        <ValidationMessage For="() => Input.Password" class="@Css.ValidationMessage" />
+                        <ValidationMessage For="() => Input.Password" class="mt-2 text-danger text-sm" />
                     </div>
                     <div>
                         <label for="confirm-password">Confirm Password</label>
                         <div class="mt-1 relative rounded-md shadow-sm">
-                            <InputText id="confirm-password" type="password" @bind-Value="Input.ConfirmPassword" class="@Css.InputText" autocomplete="new-password" aria-required="true" placeholder="password" />
+                            <InputText id="confirm-password" type="password" @bind-Value="Input.ConfirmPassword" class="@TextInput.InputClasses" autocomplete="new-password" aria-required="true" placeholder="password" />
                         </div>
-                        <ValidationMessage For="() => Input.ConfirmPassword" class="@Css.ValidationMessage" />
+                        <ValidationMessage For="() => Input.ConfirmPassword" class="mt-2 text-danger text-sm" />
                     </div>
                     <div>
-                        <button id="registerSubmit" type="submit" class="@Css.PrimaryButton">Register</button>
+                        <PrimaryButton id="registerSubmit" type="submit">Register</PrimaryButton>
                     </div>
                 </div>
             </EditForm>
@@ -61,7 +61,7 @@
     </div>
     <div class="mt-8">
         <section>
-            <h3 class="@Css.H3">Use another service to register.</h3>
+            <Heading3>Use another service to register.</Heading3>
             <ExternalLoginPicker />
         </section>
     </div>

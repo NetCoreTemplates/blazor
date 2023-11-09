@@ -22,7 +22,7 @@
 }
 else
 {
-    <h3 class="@Css.H3">Configure authenticator app</h3>
+    <Heading3>Configure authenticator app</Heading3>
 
     <div class="max-w-xl" data-module="pages/Account/Manage/EnableAuthenticator.mjs">
         <StatusMessage class="mb-3" />
@@ -32,11 +32,11 @@ else
                 <li>
                     <p class="my-2">
                         Download a two-factor authenticator app like Microsoft Authenticator for
-                        <a class="@Css.Link" href="https://go.microsoft.com/fwlink/?Linkid=825072">Android</a> and
-                        <a class="@Css.Link" href="https://go.microsoft.com/fwlink/?Linkid=825073">iOS</a> or
+                        <HyperLink class="font-semibold" href="https://go.microsoft.com/fwlink/?Linkid=825072">Android</HyperLink> and
+                        <HyperLink class="font-semibold" href="https://go.microsoft.com/fwlink/?Linkid=825073">iOS</HyperLink> or
                         Google Authenticator for
-                        <a class="@Css.Link" href="https://play.google.com/store/apps/details?id=com.google.android.apps.authenticator2&amp;hl=en">Android</a> and
-                        <a class="@Css.Link" href="https://itunes.apple.com/us/app/google-authenticator/id388497605?mt=8">iOS</a>.
+                        <HyperLink class="font-semibold" href="https://play.google.com/store/apps/details?id=com.google.android.apps.authenticator2&amp;hl=en">Android</HyperLink> and
+                        <HyperLink class="font-semibold" href="https://itunes.apple.com/us/app/google-authenticator/id388497605?mt=8">iOS</HyperLink>.
                     </p>
                 </li>
                 <li>
@@ -45,7 +45,7 @@ else
                     </p>
 
                     <Alert class="my-4" Type="AlertType.Information">
-                        Learn how to <a class="@Css.Link" href="https://go.microsoft.com/fwlink/?Linkid=852423">enable QR code generation</a>.
+                        Learn how to <HyperLink class="font-semibold" href="https://go.microsoft.com/fwlink/?Linkid=852423">enable QR code generation</HyperLink>.
                     </Alert>
 
                     <div data-permanent id="qrCode"></div>
@@ -60,17 +60,17 @@ else
                         <div class="max-w-xs">
                             <EditForm id="send-code" Model="Input" FormName="send-code" OnValidSubmit="OnValidSubmitAsync" method="post">
                                 <DataAnnotationsValidator />
-                                <ValidationSummary class="@Css.ValidationSummary" />
+                                <ValidationSummary class="mb-3 text-danger text-center font-semibold" />
 
                                 <div class="flex flex-col gap-4">
                                     <div>
-                                        <label for="code" class="@Css.InputLabel">Verification Code</label>
+                                        <label for="code" class="@TextInput.LabelClasses">Verification Code</label>
                                         <div class="mt-1 relative rounded-md shadow-sm">
-                                            <InputText id="code" type="text" @bind-Value="Input.Code" class="@Css.InputText" autocomplete="off" placeholder="Please enter the code." />
+                                            <InputText id="code" type="text" @bind-Value="Input.Code" class="@TextInput.InputClasses" autocomplete="off" placeholder="Please enter the code." />
                                         </div>
-                                        <ValidationMessage For="() => Input.Code" class="@Css.ValidationMessage" />
+                                        <ValidationMessage For="() => Input.Code" class="mt-2 text-danger text-sm" />
                                     </div>
-                                    <button type="submit" class="@Css.PrimaryButton">Verify</button>
+                                    <PrimaryButton type="submit">Verify</PrimaryButton>
                                 </div>
                             </EditForm>
                         </div>

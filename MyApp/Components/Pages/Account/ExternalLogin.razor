@@ -26,8 +26,8 @@
 
 <div class="mt-8 mx-auto max-w-lg">
     <StatusMessage class="mb-3" Message="@_message" />
-    <h1 class="@Css.H1">Register</h1>
-    <h2 class="@Css.H2" id="external-login-title">Associate your @providerDisplayName account.</h2>
+    <Heading1>Register</Heading1>
+    <Heading2 id="external-login-title">Associate your @providerDisplayName account.</Heading2>
 
     <Alert id="external-login-description" Type="AlertType.Information" class="my-4">
         You've successfully authenticated with <strong>@providerDisplayName</strong>.
@@ -39,18 +39,18 @@
         <div class="px-4 bg-white dark:bg-black sm:p-6">
             <EditForm id="confirmation-form" Model="Input" OnValidSubmit="OnValidSubmitAsync" FormName="confirmation" method="post">
                 <DataAnnotationsValidator />
-                <ValidationSummary class="@Css.ValidationSummary" />
+                <ValidationSummary class="mb-3 text-danger text-center font-semibold" />
 
                 <div class="flex flex-col gap-4">
                     <div>
-                        <label for="email" class="@Css.InputLabel">Email</label>
+                        <label for="email" class="@TextInput.LabelClasses">Email</label>
                         <div class="mt-1 relative rounded-md shadow-sm">
-                            <InputText id="email" type="text" @bind-Value="Input.Email" class="@Css.InputText" autocomplete="email" placeholder="Please enter your email." />
+                            <InputText id="email" type="text" @bind-Value="Input.Email" class="@TextInput.InputClasses" autocomplete="email" placeholder="Please enter your email." />
                         </div>
-                        <ValidationMessage For="() => Input.Email" class="@Css.ValidationMessage" />
+                        <ValidationMessage For="() => Input.Email" class="mt-2 text-danger text-sm" />
                     </div>
                     <div>
-                        <button type="submit" class="@Css.PrimaryButton">Register</button>
+                        <PrimaryButton type="submit">Register</PrimaryButton>
                     </div>
                 </div>
             </EditForm>

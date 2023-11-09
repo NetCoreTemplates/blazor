@@ -11,7 +11,7 @@
 
 <PageTitle>Disable two-factor authentication (2FA)</PageTitle>
 
-<h3 class="@Css.H3">Disable two-factor authentication (2FA)</h3>
+<Heading3>Disable two-factor authentication (2FA)</Heading3>
 
 <div class="max-w-xl">
     <StatusMessage />
@@ -29,7 +29,7 @@
     <div class="mt-4">
         <form @formname="disable-2fa" @onsubmit="OnSubmitAsync" method="post">
             <AntiforgeryToken />
-            <button class="@Css.DangerButton" type="submit">Disable 2FA</button>
+            <PrimaryButton Style="ButtonStyle.Red" type="submit">Disable 2FA</PrimaryButton>
         </form>
     </div>
 </div>

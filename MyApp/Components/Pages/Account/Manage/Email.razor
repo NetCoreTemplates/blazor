@@ -17,7 +17,7 @@
 
 <PageTitle>Manage email</PageTitle>
 
-<h3 class="@Css.H3">Manage email</h3>
+<Heading3>Manage email</Heading3>
 
 <div class="max-w-xl">
     <StatusMessage />
@@ -29,37 +29,37 @@
             </form>
             <EditForm id="change-email-form" Model="Input" FormName="change-email" OnValidSubmit="OnValidSubmitAsync" method="post">
                 <DataAnnotationsValidator />
-                <ValidationSummary class="@Css.ValidationSummary" />
+                <ValidationSummary class="mb-3 text-danger text-center font-semibold" />
 
                 <div class="flex flex-col gap-4">
                     @if (_isEmailConfirmed)
                     {
                         <div>
-                            <label for="email" class="@Css.InputLabel">Email</label>
+                            <label for="email" class="@TextInput.LabelClasses">Email</label>
                             <div class="mt-1 relative rounded-md shadow-sm">
-                                <input id="email" type="text" value="@_email" class="@Css.InputText" placeholder="Please enter your email." disabled />
+                                <input id="email" type="text" value="@_email" class="@TextInput.InputClasses" placeholder="Please enter your email." disabled />
                             </div>
                         </div>
                     }
                     else
                     {
                         <div>
-                            <label for="email" class="@Css.InputLabel">Email</label>
+                            <label for="email" class="@TextInput.LabelClasses">Email</label>
                             <div class="mt-1 relative rounded-md shadow-sm">
-                                <input id="email" type="text" value="@_email" class="@Css.InputText" placeholder="Please enter your email." disabled />
+                                <input id="email" type="text" value="@_email" class="@TextInput.InputClasses" placeholder="Please enter your email." disabled />
                             </div>
-                            <button id="email-verification" type="submit" class="@Css.SecondaryButton" form="send-verification-form">Send verification email</button>
+                            <SecondaryButton id="email-verification" type="submit" form="send-verification-form">Send verification email</SecondaryButton>
                         </div>
                     }
                 <div>
-                    <label for="new-email" class="@Css.InputLabel">New email</label>
+                    <label for="new-email" class="@TextInput.LabelClasses">New email</label>
                     <div class="mt-1 relative rounded-md shadow-sm">
-                        <InputText id="new-email" type="text" @bind-Value="Input.NewEmail" class="@Css.InputText" autocomplete="email" aria-required="true" placeholder="Please enter new email." />
+                        <InputText id="new-email" type="text" @bind-Value="Input.NewEmail" class="@TextInput.InputClasses" autocomplete="email" aria-required="true" placeholder="Please enter new email." />
                     </div>
-                    <ValidationMessage For="() => Input.NewEmail" class="@Css.ValidationMessage" />
+                    <ValidationMessage For="() => Input.NewEmail" class="mt-2 text-danger text-sm" />
                 </div>
                 <div>
-                    <button id="change-email-button" type="submit" class="@Css.PrimaryButton">Change email</button>
+                    <PrimaryButton id="change-email-button" type="submit">Change email</PrimaryButton>
                 </div>
             </div>
             </EditForm>

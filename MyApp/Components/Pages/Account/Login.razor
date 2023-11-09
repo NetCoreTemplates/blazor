@@ -17,52 +17,50 @@
 
 <div class="mt-8 mx-auto max-w-lg">
     <div class="max-w-xl">
-        <h1 class="mb-3 @Css.H1">
-            Use a local account to log in.
-        </h1>
+        <Heading1>Use a local account to log in.</Heading1>
         <StatusMessage class="mb-3" Message="@errorMessage" />
         <section class="mt-4 sm:shadow overflow-hidden sm:rounded-md">
             <EditForm id="account" Model="Input" method="post" OnValidSubmit="LoginUser" FormName="login">
                 <div class="px-4 bg-white dark:bg-black sm:p-6">
-                    <ValidationSummary class="@Css.ValidationSummary" />
+                    <ValidationSummary class="mb-3 text-danger text-center font-semibold" />
                     <div class="flex flex-col gap-y-4">
                         <div>
                             <div>
-                                <label for="Email" class="@Css.InputLabel">Email</label>
+                                <label for="Email" class="@TextInput.LabelClasses">Email</label>
                                 <div class="mt-1 relative rounded-md shadow-sm">
-                                    <InputText id="email" type="text" @bind-Value="Input.Email" class="@Css.InputText" autocomplete="username" aria-required="true" placeholder="name@example.com" />
+                                    <InputText id="email" type="text" @bind-Value="Input.Email" class="@TextInput.InputClasses" autocomplete="username" aria-required="true" placeholder="name@example.com" />
                                 </div>
                             </div>
                         </div>
                         <div>
                             <div>
-                                <label for="UserName" class="@Css.InputLabel">Password</label>
+                                <label for="UserName" class="@TextInput.LabelClasses">Password</label>
                                 <div class="mt-1 relative rounded-md shadow-sm">
-                                    <InputText id="password" type="password" @bind-Value="Input.Password" class="@Css.InputText" autocomplete="current-password" aria-required="true" placeholder="password" />
+                                    <InputText id="password" type="password" @bind-Value="Input.Password" class="@TextInput.InputClasses" autocomplete="current-password" aria-required="true" placeholder="password" />
                                 </div>
                             </div>
                         </div>
 
                         <div class="flex items-center justify-between">
                             <div class="flex items-center">
-                                <InputCheckbox id="remember-me" @bind-Value="Input.RememberMe" class="@Css.Checkbox" />
+                                <InputCheckbox id="remember-me" @bind-Value="Input.RememberMe" class="@CheckboxInput.InputClasses" />
                                 <label for="remember-me" class="ml-2 block text-sm text-gray-900 dark:text-gray-50 select-none">Remember Me</label>
                             </div>
                         </div>
 
                         <div>
-                            <button id="login-submit" type="submit" class="@Css.PrimaryButton">Log in</button>
+                            <PrimaryButton id="login-submit" type="submit">Log in</PrimaryButton>
                         </div>
 
                         <div class="mt-8 text-sm">
                             <p class="mb-3">
-                                <a class="@Css.Link" id="forgot-password" href="/Account/ForgotPassword">Forgot your password?</a>
+                                <HyperLink class="font-semibold" id="forgot-password" href="/Account/ForgotPassword">Forgot your password?</HyperLink>
                             </p>
                             <p class="mb-3">
-                                <a class="@Css.Link" href="@(NavigationManager.GetUriWithQueryParameters("/Account/Register", new Dictionary<string, object?> { ["ReturnUrl"] = ReturnUrl }))">Register as a new user</a>
+                                <HyperLink class="font-semibold" href="@(NavigationManager.GetUriWithQueryParameters("/Account/Register", new Dictionary<string, object?> { ["ReturnUrl"] = ReturnUrl }))">Register as a new user</HyperLink>
                             </p>
                             <p class="mb-3">
-                                <a class="@Css.Link" id="resend-confirmation" href="/Account/ResendEmailConfirmation">Resend email confirmation</a>
+                                <HyperLink class="font-semibold" id="resend-confirmation" href="/Account/ResendEmailConfirmation">Resend email confirmation</HyperLink>
                             </p>
                         </div>
                     </div>
@@ -71,7 +69,7 @@
         </section>
         <div class="mt-8">
             <section>
-                <h3 class="@Css.H3">Use another service to log in.</h3>
+                <Heading3>Use another service to log in.</Heading3>
                 <ExternalLoginPicker />
             </section>
         </div>

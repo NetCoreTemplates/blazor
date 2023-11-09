@@ -18,7 +18,7 @@
     <StatusMessage class="mb-3" />
     @if (_currentLogins?.Count > 0)
     {
-        <h3 class="@Css.H3">Registered Logins</h3>
+        <Heading3>Registered Logins</Heading3>
         <div class="prose prose-xl">
             <table class="table">
                 <tbody>
@@ -34,7 +34,7 @@
                                         <div>
                                             <input type="hidden" name="@nameof(LoginProvider)" value="@login.LoginProvider" />
                                             <input type="hidden" name="@nameof(ProviderKey)" value="@login.ProviderKey" />
-                                            <button type="submit" class="@Css.PrimaryButton" title="Remove this @login.ProviderDisplayName login from your account">Remove</button>
+                                            <PrimaryButton type="submit" title=@($"Remove this {login.ProviderDisplayName} login from your account")>Remove</PrimaryButton>
                                         </div>
                                     </form>
                                 }
@@ -51,7 +51,7 @@
     }
     @if (_otherLogins?.Count > 0)
     {
-        <h4 class="@Css.H4">Add another service to log in.</h4>
+        <Heading4>Add another service to log in.</Heading4>
         <form id="link-login-form" class="form-horizontal" action="/Account/Manage/LinkExternalLogin" method="post">
             <AntiforgeryToken />
             <div id="socialLoginList">
@@ -60,7 +60,7 @@
                     {
                         <button id="link-login-button-@provider.Name"
                                 type="submit"
-                                class="@Css.SecondaryButton mr-2 mb-2"
+                                class="@SecondaryButton.Classes mr-2 mb-2"
                                 name="Provider"
                                 value="@provider.Name"
                                 title="Log in using your @provider.DisplayName account">

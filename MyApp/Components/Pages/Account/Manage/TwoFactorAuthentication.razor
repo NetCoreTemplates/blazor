@@ -12,7 +12,7 @@
 
 <PageTitle>Two-factor authentication (2FA)</PageTitle>
 
-<h3 class="@Css.H3">Two-factor authentication (2FA)</h3>
+<Heading3>Two-factor authentication (2FA)</Heading3>
 
 <div class="max-w-xl">
     <StatusMessage class="mb-3" />
@@ -25,45 +25,45 @@
             {
                 <Alert Type="AlertType.Error">
                     <strong>You have no recovery codes left.</strong>
-                    <p>You must <a class="@Css.Link" href="/Account/Manage/GenerateRecoveryCodes">generate a new set of recovery codes</a> before you can log in with a recovery code.</p>
+                    <p>You must <HyperLink href="/Account/Manage/GenerateRecoveryCodes">generate a new set of recovery codes</HyperLink> before you can log in with a recovery code.</p>
                 </Alert>
             }
             else if (_recoveryCodesLeft == 1)
             {
                 <Alert Type="AlertType.Error">
                     <strong>You have 1 recovery code left.</strong>
-                    <p>You can <a class="@Css.Link" href="/Account/Manage/GenerateRecoveryCodes">generate a new set of recovery codes</a>.</p>
+                    <p>You can <HyperLink href="/Account/Manage/GenerateRecoveryCodes">generate a new set of recovery codes</HyperLink>.</p>
                 </Alert>
             }
             else if (_recoveryCodesLeft <= 3)
             {
                 <Alert Type="AlertType.Error">
                     <strong>You have @_recoveryCodesLeft recovery codes left.</strong>
-                    <p>You should <a class="@Css.Link" href="/Account/Manage/GenerateRecoveryCodes">generate a new set of recovery codes</a>.</p>
+                    <p>You should <HyperLink href="/Account/Manage/GenerateRecoveryCodes">generate a new set of recovery codes</HyperLink>.</p>
                 </Alert>
             }
 
             if (_isMachineRemembered)
             {
                 <form class="inline-block" @formname="forget-browser" @onsubmit="OnSubmitForgetBrowserAsync" method="post">
-                    <button type="submit" class="@Css.PrimaryButton">Forget this browser</button>
+                    <PrimaryButton type="submit">Forget this browser</PrimaryButton>
                 </form>
             }
 
-            <a href="/Account/Manage/Disable2fa" class="@Css.PrimaryButton">Disable 2FA</a>
-            <a href="/Account/Manage/GenerateRecoveryCodes" class="@Css.PrimaryButton">Reset recovery codes</a>
+            <PrimaryButton href="/Account/Manage/Disable2fa">Disable 2FA</PrimaryButton>
+            <PrimaryButton href="/Account/Manage/GenerateRecoveryCodes">Reset recovery codes</PrimaryButton>
         }
 
         <div class="mt-4">
-            <h4 class="@Css.H4">Authenticator app</h4>
+            <Heading4 class="mb-4">Authenticator app</Heading4>
             @if (!_hasAuthenticator)
             {
-                <a id="enable-authenticator" href="/Account/Manage/EnableAuthenticator" class="@Css.PrimaryButton">Add authenticator app</a>
+                <PrimaryButton id="enable-authenticator" href="/Account/Manage/EnableAuthenticator">Add authenticator app</PrimaryButton>
             }
             else
             {
-                <a id="enable-authenticator" href="/Account/Manage/EnableAuthenticator" class="@Css.PrimaryButton">Set up authenticator app</a>
-                <a id="reset-authenticator" href="/Account/Manage/ResetAuthenticator" class="@Css.PrimaryButton">Reset authenticator app</a>
+                <PrimaryButton id="enable-authenticator" href="/Account/Manage/EnableAuthenticator">Set up authenticator app</PrimaryButton>
+                <PrimaryButton id="reset-authenticator" href="/Account/Manage/ResetAuthenticator">Reset authenticator app</PrimaryButton>
             }
         </div>
     }

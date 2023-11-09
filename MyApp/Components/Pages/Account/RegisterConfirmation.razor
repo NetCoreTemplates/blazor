@@ -14,20 +14,20 @@
 
 <PageTitle>Register confirmation</PageTitle>
 
-<h1 class="@Css.H1">Register confirmation</h1>
+<div class="mt-8 mx-auto max-w-lg">
+    <Heading1>Register confirmation</Heading1>
 
-<div class="max-w-xl">
     <StatusMessage Message="@statusMessage" />
 
     @if (emailConfirmationLink is not null)
     {
         <p class="my-4">
             This app does not currently have a real email sender registered, see 
-            <a class="@Css.Link" href="https://aka.ms/aspaccountconf">these docs</a> for how to configure a real email sender.
+            <HyperLink class="font-semibold" href="https://aka.ms/aspaccountconf">these docs</HyperLink> for how to configure a real email sender.
         </p>
         <p class="my-4">
             Normally this would be emailed:
-            <a id="confirm-link" class="@Css.Link" href="@emailConfirmationLink">Click here to confirm your account</a>
+            <HyperLink class="font-semibold" id="confirm-link" href="@emailConfirmationLink">Click here to confirm your account</HyperLink>
         </p>
     }
     else

@@ -12,7 +12,7 @@
 
 <PageTitle>Reset authenticator key</PageTitle>
 
-<h3 class="@Css.H3">Reset authenticator key</h3>
+<Heading3>Reset authenticator key</Heading3>
 
 <div class="max-w-xl">
     <StatusMessage />
@@ -30,7 +30,7 @@
     <div class="pt-4">
         <form id="reset-authenticator-form" @formname="reset-authenticator" @onsubmit="OnSubmitAsync" method="post">
             <AntiforgeryToken />
-            <button id="reset-authenticator-button" class="@Css.DangerButton" type="submit">Reset authenticator key</button>
+            <PrimaryButton Style="ButtonStyle.Red" id="reset-authenticator-button" type="submit">Reset authenticator key</PrimaryButton>
         </form>
     </div>
 </div>
