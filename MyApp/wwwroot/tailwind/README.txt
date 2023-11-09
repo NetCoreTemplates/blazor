@@ -1,1 +1,2 @@
 ﻿Source code of components containing tailwind classes that also need to be included in tailwind's generated /css/app.css 
+Available from: https://raw.githubusercontent.com/ServiceStack/ServiceStack/main/ServiceStack.Blazor/src/ServiceStack.Blazor/dist/tailwind.html
