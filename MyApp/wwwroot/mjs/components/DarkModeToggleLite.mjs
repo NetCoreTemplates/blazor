@@ -1,5 +1,3 @@
-import { $1 } from "@servicestack/client"
-
 // Implemented in Vanilla JS to avoid needing Blazor Server or WASM in Layout
 const template = isDark => (`<button type="button" onclick="toggleDarkMode()" class="bg-gray-200 dark:bg-gray-700 relative inline-flex flex-shrink-0 h-6 w-11 border-2 border-transparent rounded-full cursor-pointer transition-colors ease-in-out duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 dark:ring-offset-black" role="switch" aria-checked="false">
     <span class="` + (!isDark ? 'translate-x-5' : 'translate-x-0') + ' pointer-events-none relative inline-block h-5 w-5 rounded-full bg-white dark:bg-black shadow transform ring-0 transition ease-in-out duration-200' + `">
@@ -12,7 +10,7 @@ const template = isDark => (`<button type="button" onclick="toggleDarkMode()" cl
     </span>
 </button>`)
 
-const html = $1('html')
+const html = document.documentElement
 let isDark = html?.classList.contains('dark')
 function renderDarkMode() {
     if (isDark) {
@@ -20,7 +18,7 @@ function renderDarkMode() {
     } else {
         html?.classList.remove('dark')
     }
-    $1('#dark-mode-toggle').innerHTML = template(isDark)
+    document.querySelector('#dark-mode-toggle').innerHTML = template(isDark)
 }
 
 function toggleDarkMode() {
