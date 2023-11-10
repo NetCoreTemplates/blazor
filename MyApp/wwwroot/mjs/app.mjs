@@ -1,6 +1,6 @@
-export function mountAll(opt) {
+export async function remount() {
     document.querySelectorAll('[data-module]').forEach(async el => {
-        let modulePath = el.getAttribute('data-module')
+        let modulePath = el.dataset.module
         if (!modulePath) return
         if (!modulePath.startsWith('/') && !modulePath.startsWith('.')) {
             modulePath = `../${modulePath}`
@@ -11,13 +11,9 @@ export function mountAll(opt) {
                 module.default.load()
             }
         } catch (e) {
-            console.error(`Couldn't load module ${el.getAttribute('data-module')}`, e)
+            console.error(`Couldn't load module ${el.dataset.module}`, e)
         }
     })
-}
-
-export async function remount() {
-    mountAll({ force: true })
 }
 
 document.addEventListener('DOMContentLoaded', () =>
