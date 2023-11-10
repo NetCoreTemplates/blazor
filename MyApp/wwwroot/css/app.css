@@ -1018,6 +1018,11 @@ strong {
   margin-bottom: 1rem;
 }
 
+.my-8 {
+  margin-top: 2rem;
+  margin-bottom: 2rem;
+}
+
 .-ml-0 {
   margin-left: -0px;
 }

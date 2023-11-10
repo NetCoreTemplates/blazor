@@ -20,6 +20,6 @@ public class ConfigureDb : IHostingStartup
         })
         .ConfigureAppHost(appHost => {
             // Enable built-in Database Admin UI at /admin-ui/database
-            // appHost.Plugins.Add(new AdminDatabaseFeature());
+            appHost.Plugins.Add(new AdminDatabaseFeature());
         });
 }
