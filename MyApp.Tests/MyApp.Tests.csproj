@@ -13,8 +13,8 @@
     <ProjectReference Include="..\MyApp.ServiceModel\MyApp.ServiceModel.csproj" />
     <ProjectReference Include="..\MyApp\MyApp.csproj" />
 
-    <PackageReference Include="NUnit" Version="3.13.*" />
-    <PackageReference Include="NUnit3TestAdapter" Version="4.1.*" />
+    <PackageReference Include="NUnit" Version="3.*" />
+    <PackageReference Include="NUnit3TestAdapter" Version="4.*" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.*" />
     <PackageReference Include="ServiceStack" Version="6.*" />
     <PackageReference Include="ServiceStack.Kestrel" Version="6.*" />

@@ -13,11 +13,10 @@ jobs:
       - name: checkout
         uses: actions/checkout@v3
 
-      - name: setup .net core
+      - name: Setup dotnet
         uses: actions/setup-dotnet@v3
         with:
           dotnet-version: '8.*'
-          dotnet-quality: 'preview'
 
       - name: build
         run: dotnet build

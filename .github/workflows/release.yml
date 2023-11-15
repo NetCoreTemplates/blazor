@@ -57,11 +57,10 @@ jobs:
           password: ${{ secrets.GITHUB_TOKEN }}
           
         
-      - name: setup .net core
+      - name: Setup dotnet
         uses: actions/setup-dotnet@v3
         with:
           dotnet-version: '8.*'
-          dotnet-quality: 'preview'
       
       # Build and push new docker image, skip for manual redeploy other than 'latest'
       - name: Build and push Docker image
