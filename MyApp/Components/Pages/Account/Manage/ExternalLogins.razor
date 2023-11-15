@@ -52,7 +52,7 @@
     @if (_otherLogins?.Count > 0)
     {
         <Heading4>Add another service to log in.</Heading4>
-        <form id="link-login-form" class="form-horizontal" action="/Account/Manage/LinkExternalLogin" method="post">
+        <form id="link-login-form" class="mt-4 form-horizontal" action="/Account/Manage/LinkExternalLogin" method="post">
             <AntiforgeryToken />
             <div id="socialLoginList">
                 <p>

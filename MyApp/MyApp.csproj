@@ -23,12 +23,12 @@
     </ItemGroup>
 
     <ItemGroup>
-        <PackageReference Include="ServiceStack" Version="6.*" />
-        <PackageReference Include="ServiceStack.Blazor" Version="6.*" />
-        <PackageReference Include="ServiceStack.Mvc" Version="6.*" />
-        <PackageReference Include="ServiceStack.OrmLite.Sqlite.Data" Version="6.*" />
-        <PackageReference Include="ServiceStack.Extensions" Version="6.*" />
-        <PackageReference Include="ServiceStack.Server" Version="6.*" />
+        <PackageReference Include="ServiceStack" Version="8.*" />
+        <PackageReference Include="ServiceStack.Blazor" Version="8.*" />
+        <PackageReference Include="ServiceStack.Mvc" Version="8.*" />
+        <PackageReference Include="ServiceStack.OrmLite.Sqlite.Data" Version="8.*" />
+        <PackageReference Include="ServiceStack.Extensions" Version="8.*" />
+        <PackageReference Include="ServiceStack.Server" Version="8.*" />
     </ItemGroup>
 
     <ItemGroup>
