@@ -34,17 +34,11 @@ public class ConfigureMq : IHostingStartup
 /// <summary>
 /// Sends emails by publishing a message to the Background MQ Server where it's processed in the background
 /// </summary>
-public class EmailSender : IEmailSender
+public class EmailSender(IMessageService messageService) : IEmailSender
 {
-    IMessageService MessageService { get; }
-    public EmailSender(IMessageService messageService)
-    {
-        MessageService = messageService;
-    }
-
     public Task SendEmailAsync(string email, string subject, string htmlMessage)
     {
-        using var mqClient = MessageService.CreateMessageProducer();
+        using var mqClient = messageService.CreateMessageProducer();
         mqClient.Publish(new SendEmail
         {
             To = email,

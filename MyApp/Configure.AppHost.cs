@@ -1,11 +1,5 @@
 ﻿using Funq;
-using MyApp.Data;
 using MyApp.ServiceInterface;
-using ServiceStack;
-using ServiceStack.Auth;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.AspNetCore.Identity;
-using MyApp.ServiceModel;
 
 [assembly: HostingStartup(typeof(MyApp.AppHost))]
 
@@ -24,14 +18,7 @@ public class AppHost : AppHostBase, IHostingStartup
     // Configure your AppHost with the necessary configuration and dependencies your App needs
     public override void Configure(Container container)
     {
-        SetConfig(new HostConfig
-        {
-            AdminAuthSecret = "secretz",
+        SetConfig(new HostConfig {
         });
     }
-}
-
-// Add any additional metadata properties you want to store in the Users Typed Session
-public class CustomUserSession : AuthUserSession
-{
 }

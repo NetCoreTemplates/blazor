@@ -41,8 +41,8 @@
     </ItemGroup>
 
     <ItemGroup>
-        <Content Include="_pages\**" CopyToPublishDirectory="PreserveNewest"/>
-        <Content Include="_videos\**" CopyToPublishDirectory="PreserveNewest"/>
+        <Content Include="_pages\**" CopyToPublishDirectory="PreserveNewest" />
+        <Content Include="_videos\**" CopyToPublishDirectory="PreserveNewest" />
     </ItemGroup>
 
     <Target Name="tailwind" BeforeTargets="Publish">

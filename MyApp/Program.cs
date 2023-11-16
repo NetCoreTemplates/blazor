@@ -11,42 +11,46 @@ using MyApp.Components;
 
 var builder = WebApplication.CreateBuilder(args);
 
+var services = builder.Services;
+var config = builder.Configuration;
+
 // Add services to the container.
-builder.Services.AddRazorComponents()
+services.AddRazorComponents()
     .AddInteractiveServerComponents();
 
-builder.Services.AddCascadingAuthenticationState();
-builder.Services.AddScoped<UserAccessor>();
-builder.Services.AddScoped<IdentityRedirectManager>();
-builder.Services.AddScoped<AuthenticationStateProvider, IdentityRevalidatingAuthenticationStateProvider>();
+services.AddCascadingAuthenticationState();
+services.AddScoped<UserAccessor>();
+services.AddScoped<IdentityRedirectManager>();
+services.AddScoped<AuthenticationStateProvider, IdentityRevalidatingAuthenticationStateProvider>();
 
-builder.Services.AddAuthentication(IdentityConstants.ApplicationScheme)
+services.AddAuthentication(IdentityConstants.ApplicationScheme)
     .AddIdentityCookies();
-builder.Services.AddDataProtection()
+services.AddDataProtection()
     .PersistKeysToFileSystem(new DirectoryInfo("App_Data"));
 
 // $ dotnet ef migrations add CreateIdentitySchema
 // $ dotnet ef database update
-var connectionString = builder.Configuration.GetConnectionString("DefaultConnection") ?? throw new InvalidOperationException("Connection string 'DefaultConnection' not found.");
-builder.Services.AddDbContext<ApplicationDbContext>(options =>
-    options.UseSqlite(connectionString));
-builder.Services.AddDatabaseDeveloperPageExceptionFilter();
+var connectionString = config.GetConnectionString("DefaultConnection") ?? throw new InvalidOperationException("Connection string 'DefaultConnection' not found.");
+services.AddDbContext<ApplicationDbContext>(options =>
+    options.UseSqlite(connectionString, b => b.MigrationsAssembly(nameof(MyApp))));
+services.AddDatabaseDeveloperPageExceptionFilter();
 
-builder.Services.AddIdentityCore<ApplicationUser>(options => options.SignIn.RequireConfirmedAccount = true)
+services.AddIdentityCore<ApplicationUser>(options => options.SignIn.RequireConfirmedAccount = true)
     .AddRoles<IdentityRole>()
     .AddEntityFrameworkStores<ApplicationDbContext>()
     .AddSignInManager()
     .AddDefaultTokenProviders();
 
-builder.Services.AddSingleton<IEmailSender, NoOpEmailSender>();
+services.AddSingleton<IEmailSender, NoOpEmailSender>();
 // Uncomment to send emails with SMTP, configure SMTP with "SmtpConfig" in appsettings.json
-// builder.Services.AddSingleton<IEmailSender, EmailSender>();
+// services.AddSingleton<IEmailSender, EmailSender>();
+services.AddScoped<IUserClaimsPrincipalFactory<ApplicationUser>, AdditionalUserClaimsPrincipalFactory>();
 
 var baseUrl = builder.Configuration["ApiBaseUrl"] ??
     (builder.Environment.IsDevelopment() ? "https://localhost:5001" : "http://" + IPAddress.Loopback);
-builder.Services.AddScoped(c => new HttpClient { BaseAddress = new Uri(baseUrl) });
-builder.Services.AddBlazorServerIdentityApiClient(baseUrl);
-builder.Services.AddLocalStorage();
+services.AddScoped(c => new HttpClient { BaseAddress = new Uri(baseUrl) });
+services.AddBlazorServerIdentityApiClient(baseUrl);
+services.AddLocalStorage();
 
 var app = builder.Build();
 
