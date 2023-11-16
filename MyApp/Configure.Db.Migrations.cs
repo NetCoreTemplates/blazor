@@ -46,8 +46,6 @@ public class ConfigureDbMigrations : IHostingStartup
 
     private async Task AddSeedUsers(IServiceProvider services)
     {
-        var scopeFactory = services.GetRequiredService<IServiceScopeFactory>();
-
         //initializing custom roles 
         var roleManager = services.GetRequiredService<RoleManager<IdentityRole>>();
         var userManager = services.GetRequiredService<UserManager<ApplicationUser>>();
@@ -110,7 +108,7 @@ public class ConfigureDbMigrations : IHostingStartup
             FirstName = "Test",
             LastName = "Manager",
             EmailConfirmed = true,
-        }, "p@55wOrd", [Roles.Manager]);
+        }, "p@55wOrd", [Roles.Manager, Roles.Employee]);
 
         await EnsureUserAsync(new ApplicationUser
         {
