@@ -33,7 +33,7 @@
         if (SignInManager.IsSignedIn(user))
         {
             await SignInManager.SignOutAsync();
-            RedirectManager.RedirectTo(ReturnUrl ?? "/");
+            RedirectManager.RedirectTo(ReturnUrl ?? "/Account/Logout");
         }
     }
 }
