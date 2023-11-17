@@ -7,7 +7,7 @@ namespace MyApp.ServiceInterface;
 
 /// <summary>
 /// Configuration for sending emails using SMTP servers in EmailServices
-/// E.g. for managed services like Amazon Simple Email Service (SES): https://aws.amazon.com/ses/
+/// E.g. for managed services like Amazon (SES): https://aws.amazon.com/ses/ or https://mailtrap.io
 /// </summary>
 public class SmtpConfig
 {
