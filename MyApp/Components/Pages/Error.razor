@@ -3,11 +3,13 @@
 
 <PageTitle>Error</PageTitle>
 
-<section class="flex-col md:flex-row flex justify-center mt-16 mb-16 md:mb-12">
-    <Heading1 class="text-danger">Error.</Heading1>
-    <Heading2 class="text-danger">An error occurred while processing your request.</Heading2>
-</section>
 <div class="mx-auto">
+    <section class="text-center mt-16 mb-16 md:mb-12">
+        <h1 class="text-4xl tracking-tight font-extrabold text-gray-900 dark:text-gray-50 sm:text-5xl md:text-6xl">
+            Error.
+        </h1>
+        <Heading2 class="text-danger">An error occurred while processing your request.</Heading2>
+    </section>
     <div class="mx-auto prose lg:prose-xl mb-24">
         @if (ShowRequestId)
         {
