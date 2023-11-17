@@ -75,7 +75,7 @@ public class ConfigureDbMigrations : IHostingStartup
             var roleExist = await roleManager.RoleExistsAsync(roleName);
             if (!roleExist)
             {
-                //create the roles and seed them to the database: Question 1
+                //Create the roles and seed them to the database
                 assertResult(await roleManager.CreateAsync(new IdentityRole(roleName)));
             }
         }
