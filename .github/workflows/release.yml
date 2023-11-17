@@ -48,6 +48,11 @@ jobs:
           if [ "${{ github.event.inputs.version }}" != "" ]; then
             echo "TAG_NAME=${{ github.event.inputs.version }}" >> $GITHUB_ENV
           fi;
+          if [ ! -z "${{ secrets.APPSETTINGS_PATCH }}" ]; then
+            echo "HAS_APPSETTINGS_PATCH=true" >> $GITHUB_ENV
+          else
+            echo "HAS_APPSETTINGS_PATCH=false" >> $GITHUB_ENV
+          fi;
       
       - name: Login to GitHub Container Registry
         uses: docker/login-action@v2
@@ -60,7 +65,20 @@ jobs:
       - name: Setup dotnet
         uses: actions/setup-dotnet@v3
         with:
-          dotnet-version: '8.*'
+          dotnet-version: '8.0'
+          
+      - name: Install x tool
+        if: env.HAS_APPSETTINGS_PATCH == 'true'
+        run: dotnet tool install -g x
+          
+      - name: Apply Production AppSettings
+        if: env.HAS_APPSETTINGS_PATCH == 'true'
+        working-directory: ./MyApp
+        run: | 
+          cat <<EOF >> appsettings.json.patch
+          ${{ secrets.APPSETTINGS_PATCH }}
+          EOF
+          x patch appsettings.json.patch
       
       # Build and push new docker image, skip for manual redeploy other than 'latest'
       - name: Build and push Docker image
