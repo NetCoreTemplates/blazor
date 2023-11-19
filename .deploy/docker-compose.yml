@@ -10,7 +10,9 @@ services:
             VIRTUAL_HOST: ${HOST_DOMAIN}
             VIRTUAL_PORT: 8080 # New default ASP.NET port -> https://learn.microsoft.com/en-us/dotnet/core/compatibility/containers/8.0/aspnet-port
             LETSENCRYPT_HOST: ${HOST_DOMAIN}           
-            LETSENCRYPT_EMAIL: ${LETSENCRYPT_EMAIL}    
+            LETSENCRYPT_EMAIL: ${LETSENCRYPT_EMAIL}
+            LC_ALL: "en_US.UTF-8"
+            LANG: "en_US.UTF-8"
         volumes:
             - app-mydb:/app/App_Data  
 
