@@ -6,7 +6,9 @@ services:
         ports:                                         
             - "8080"                                     
         container_name: ${APP_NAME}_app                
-        environment:                                    
+        environment:
+            WS_HOST: ws://${HOST_DOMAIN}
+            WS_PORT: 80
             VIRTUAL_HOST: ${HOST_DOMAIN}
             VIRTUAL_PORT: 8080 # New default ASP.NET port -> https://learn.microsoft.com/en-us/dotnet/core/compatibility/containers/8.0/aspnet-port
             LETSENCRYPT_HOST: ${HOST_DOMAIN}           
