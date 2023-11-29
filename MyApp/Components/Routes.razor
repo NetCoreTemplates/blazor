@@ -1,8 +1,9 @@
-﻿<Router AppAssembly="@typeof(Program).Assembly">
+﻿@using MyApp.Components.Account.Shared
+<Router AppAssembly="@typeof(Program).Assembly">
     <Found Context="routeData">
         <AuthorizeRouteView RouteData="@routeData" DefaultLayout="@typeof(Layout.MainLayout)">
-           <NotAuthorized>
-                <MyApp.Components.Pages.Account.Login />
+            <NotAuthorized>
+                <RedirectToLogin />
             </NotAuthorized>
         </AuthorizeRouteView>
         <FocusOnNavigate RouteData="@routeData" Selector="h1" />

@@ -1,7 +1,8 @@
 ﻿@page "/profile"
-@using MyApp.Components.Identity
 @attribute [Authorize]
 @inherits AppAuthComponentBase
+
+@inject NavigationManager NavigationManager
 
 <div class="rounded-lg bg-white dark:bg-black overflow-hidden shadow dark:border dark:border-gray-800 mb-3">
     <h2 class="sr-only" id="profile-overview-title">Profile Overview</h2>
@@ -41,11 +42,24 @@
                 </div>
             </div>
             <div class="mt-5 flex justify-center sm:mt-0">
-                <LogoutForm id="logout-form" />
-                <LinkButton onclick="document.getElementById('logout-form').submit(); return false;">
-                    Sign Out
-                </LinkButton>
+                <form action="Account/Logout" method="post">
+                    <AntiforgeryToken />
+                    <input type="hidden" name="ReturnUrl" value="@currentUrl" />
+                    <SecondaryButton type="submit">
+                        Sign Out
+                    </SecondaryButton>
+                </form>
             </div>
         </div>
     </div>
 </div>
+
+@code {
+    private string? currentUrl;
+
+    protected override void OnInitialized()
+    {
+        currentUrl = NavigationManager.ToBaseRelativePath(NavigationManager.Uri);
+    }
+}
+

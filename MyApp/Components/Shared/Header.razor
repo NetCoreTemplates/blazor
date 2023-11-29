@@ -1,5 +1,4 @@
-﻿@using MyApp.Components.Identity
-@inherits AppAuthComponentBase
+﻿@inherits AppAuthComponentBase
 @inject NavigationManager NavigationManager
 
 <header class="border-b border-gray-200 dark:border-gray-800 pr-3">
@@ -42,10 +41,13 @@
                                 </div>
                             </li>
                             <li class="mr-3 relative flex flex-wrap just-fu-start m-0">
-                                <LogoutForm id="header-logout-form" />
-                                <LinkButton onclick="document.getElementById('header-logout-form').submit(); return false;">
-                                    Sign Out
-                                </LinkButton>
+                                <form action="Account/Logout" method="post">
+                                    <AntiforgeryToken />
+                                    <input type="hidden" name="ReturnUrl" value="@currentUrl" />
+                                    <SecondaryButton type="submit">
+                                        Sign Out
+                                    </SecondaryButton>
+                                </form>
                             </li>
                         </Authorized>
                         <Authorizing>
@@ -79,4 +81,23 @@
 </header>
 
 @code {
+    private string? currentUrl;
+
+    protected override void OnInitialized()
+    {
+        currentUrl = NavigationManager.ToBaseRelativePath(NavigationManager.Uri);
+        NavigationManager.LocationChanged += OnLocationChanged;
+    }
+
+    private void OnLocationChanged(object? sender, LocationChangedEventArgs e)
+    {
+        currentUrl = NavigationManager.ToBaseRelativePath(e.Location);
+        StateHasChanged();
+    }
+
+    public void Dispose()
+    {
+        NavigationManager.LocationChanged -= OnLocationChanged;
+    }
 }
+

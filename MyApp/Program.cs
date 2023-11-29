@@ -6,8 +6,8 @@ using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.EntityFrameworkCore;
 using ServiceStack.Blazor;
 using MyApp.Data;
-using MyApp.Identity;
 using MyApp.Components;
+using MyApp.Components.Account;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -19,7 +19,7 @@ services.AddRazorComponents()
     .AddInteractiveServerComponents();
 
 services.AddCascadingAuthenticationState();
-services.AddScoped<UserAccessor>();
+services.AddScoped<IdentityUserAccessor>();
 services.AddScoped<IdentityRedirectManager>();
 services.AddScoped<AuthenticationStateProvider, IdentityRevalidatingAuthenticationStateProvider>();
 
@@ -41,9 +41,9 @@ services.AddIdentityCore<ApplicationUser>(options => options.SignIn.RequireConfi
     .AddSignInManager()
     .AddDefaultTokenProviders();
 
-services.AddSingleton<IEmailSender, NoOpEmailSender>();
+services.AddSingleton<IEmailSender<ApplicationUser>, IdentityNoOpEmailSender>();
 // Uncomment to send emails with SMTP, configure SMTP with "SmtpConfig" in appsettings.json
-// services.AddSingleton<IEmailSender, EmailSender>();
+//services.AddSingleton<IEmailSender<ApplicationUser>, EmailSender>();
 services.AddScoped<IUserClaimsPrincipalFactory<ApplicationUser>, AdditionalUserClaimsPrincipalFactory>();
 
 var baseUrl = builder.Configuration["ApiBaseUrl"] ??
