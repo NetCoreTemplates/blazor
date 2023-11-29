@@ -24,21 +24,21 @@
             {
                 <Alert Type="AlertType.Error">
                     <strong>You have no recovery codes left.</strong>
-                    <p>You must <HyperLink href="/Account/Manage/GenerateRecoveryCodes">generate a new set of recovery codes</HyperLink> before you can log in with a recovery code.</p>
+                    <p>You must <HyperLink href="Account/Manage/GenerateRecoveryCodes">generate a new set of recovery codes</HyperLink> before you can log in with a recovery code.</p>
                 </Alert>
             }
             else if (recoveryCodesLeft == 1)
             {
                 <Alert Type="AlertType.Error">
                     <strong>You have 1 recovery code left.</strong>
-                    <p>You can <HyperLink href="/Account/Manage/GenerateRecoveryCodes">generate a new set of recovery codes</HyperLink>.</p>
+                    <p>You can <HyperLink href="Account/Manage/GenerateRecoveryCodes">generate a new set of recovery codes</HyperLink>.</p>
                 </Alert>
             }
             else if (recoveryCodesLeft <= 3)
             {
                 <Alert Type="AlertType.Error">
                     <strong>You have @recoveryCodesLeft recovery codes left.</strong>
-                    <p>You should <HyperLink href="/Account/Manage/GenerateRecoveryCodes">generate a new set of recovery codes</HyperLink>.</p>
+                    <p>You should <HyperLink href="Account/Manage/GenerateRecoveryCodes">generate a new set of recovery codes</HyperLink>.</p>
                 </Alert>
             }
 
@@ -49,20 +49,20 @@
                 </form>
             }
 
-            <PrimaryButton href="/Account/Manage/Disable2fa">Disable 2FA</PrimaryButton>
-            <PrimaryButton href="/Account/Manage/GenerateRecoveryCodes">Reset recovery codes</PrimaryButton>
+            <PrimaryButton href="Account/Manage/Disable2fa">Disable 2FA</PrimaryButton>
+            <PrimaryButton href="Account/Manage/GenerateRecoveryCodes">Reset recovery codes</PrimaryButton>
         }
 
         <div class="mt-4">
             <Heading4 class="mb-4">Authenticator app</Heading4>
             @if (!hasAuthenticator)
             {
-                <PrimaryButton id="enable-authenticator" href="/Account/Manage/EnableAuthenticator">Add authenticator app</PrimaryButton>
+                <PrimaryButton id="enable-authenticator" href="Account/Manage/EnableAuthenticator">Add authenticator app</PrimaryButton>
             }
             else
             {
-                <PrimaryButton id="enable-authenticator" href="/Account/Manage/EnableAuthenticator">Set up authenticator app</PrimaryButton>
-                <PrimaryButton id="reset-authenticator" href="/Account/Manage/ResetAuthenticator">Reset authenticator app</PrimaryButton>
+                <PrimaryButton id="enable-authenticator" href="Account/Manage/EnableAuthenticator">Set up authenticator app</PrimaryButton>
+                <PrimaryButton id="reset-authenticator" href="Account/Manage/ResetAuthenticator">Reset authenticator app</PrimaryButton>
             }
         </div>
     }

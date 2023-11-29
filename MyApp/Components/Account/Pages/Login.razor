@@ -51,13 +51,13 @@
 
                         <div class="mt-8 text-sm">
                             <p class="mb-3">
-                                <HyperLink class="font-semibold" id="forgot-password" href="/Account/ForgotPassword">Forgot your password?</HyperLink>
+                                <HyperLink class="font-semibold" id="forgot-password" href="Account/ForgotPassword">Forgot your password?</HyperLink>
                             </p>
                             <p class="mb-3">
-                                <HyperLink class="font-semibold" href="@(NavigationManager.GetUriWithQueryParameters("/Account/Register", new Dictionary<string, object?> { ["ReturnUrl"] = ReturnUrl }))">Register as a new user</HyperLink>
+                                <HyperLink class="font-semibold" href="@(NavigationManager.GetUriWithQueryParameters("Account/Register", new Dictionary<string, object?> { ["ReturnUrl"] = ReturnUrl }))">Register as a new user</HyperLink>
                             </p>
                             <p class="mb-3">
-                                <HyperLink class="font-semibold" id="resend-confirmation" href="/Account/ResendEmailConfirmation">Resend email confirmation</HyperLink>
+                                <HyperLink class="font-semibold" id="resend-confirmation" href="Account/ResendEmailConfirmation">Resend email confirmation</HyperLink>
                             </p>
                         </div>
                     </div>
