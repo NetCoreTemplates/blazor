@@ -1,9 +1,6 @@
-@page "/{Slug?}"
+@page "/{Slug:regex(^[a-z-_]+$)}"
 @inherits AppComponentBase
 @inject MarkdownPages Markdown
-@inject AppConfig AppConfig
-@using Markdig
-@using Markdig.Syntax
 
 @if (doc != null)
 {
