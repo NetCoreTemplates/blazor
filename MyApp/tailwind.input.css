@@ -1,6 +1,12 @@
 @tailwind base;
 @tailwind components;
 
+/* override element defaults */
+b, strong { font-weight:600; }
+
+/*vue*/
+[v-cloak] {display:none}
+
 /* @tailwindcss/forms css */
 [type='text'],[type='email'],[type='url'],[type='password'],[type='number'],[type='date'],[type='month'],[type='search'],[type='tel'],[type='time'],[multiple],textarea,select
 {-webkit-appearance:none;-moz-appearance:none;appearance:none;background-color:#fff;border-color:#6b7280;border-width:1px;border-radius:0;padding:0.5rem 0.75rem;font-size:1rem;line-height:1.5rem}
@@ -45,6 +51,7 @@ select{
 [type='file']{background:unset;border-color:inherit;border-width:0;border-radius:0;padding:0;font-size:unset;line-height:inherit}
 [type='file']:focus{outline:1px auto -webkit-focus-ring-color;}
 
+
 /* @tailwindcss/aspect css */
 .aspect-h-9 {
     --tw-aspect-h: 9;
@@ -64,78 +71,13 @@ select{
     left: 0;
 }
 
-.animate-spin {
-    -webkit-animation: spin 1s linear infinite;
-    animation: spin 1s linear infinite;
-}
-
-.dark {
-    color-scheme: dark;
-}
-
-.lang:before {
-    content: "$ ";
-}
-
-.notes a {
-    color: rgb(30 64 175);
-}
-.dark .notes {
-    color: rgb(156 163 175);
-}
-.dark .notes a {
-    color: rgb(63 131 248);
-}
-
-
-.svg-external {
-    background: url("data:image/svg+xml,%3Csvg width='1.25rem' height='1.25rem' xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cg fill='none'%3E%3Cpath d='M10 6H6a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-4M14 4h6m0 0v6m0-6L10 14' stroke='%231E40AF' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/g%3E%3C/svg%3E") no-repeat bottom right;
-    padding-right: 1.35rem;
-}
-.dark .svg-external {
-    background: url("data:image/svg+xml,%3Csvg width='1.25rem' height='1.25rem' xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cg fill='none'%3E%3Cpath d='M10 6H6a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-4M14 4h6m0 0v6m0-6L10 14' stroke='%233f83f8' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/g%3E%3C/svg%3E") no-repeat bottom right;
-}
-
-div.example-code {
-    margin: 28px 0;
-    border-radius: 8px;
-}
-
-.dark p code {
-    background-color: rgb(30 58 138); /*text-blue-900*/
-    color: rgb(243 244 246); /*text-gray-100*/
-}
-p code {
-    color: #3b82f6;
-    background-color: #eff6ff;
-    padding: 0.25em 0.5rem;
-    border-radius: 0.25rem;
-}
-
-.example ::-webkit-scrollbar {
-    width: 8px;
-    height: 6px
-}
-
-.example ::-webkit-scrollbar-thumb {
-    background-color: #ccc;
-}
-
-.youtube {
-    width: 448px;
-    height: 252px;
-}
-
-input:-webkit-autofill,
-input:-webkit-autofill:focus {
+/* dark mode autocomplete fields */
+.dark input:-webkit-autofill,
+.dark input:-webkit-autofill:focus {
     transition: background-color 600000s 0s, color 600000s 0s;
 }
-input[data-autocompleted] {
+.dark input[data-autocompleted] {
     background-color: transparent !important;
-}
-
-strong { 
-    font-weight: 600;
 }
 
 [data-collapsed] [data-collapse=hidden] {
@@ -154,12 +96,10 @@ strong {
     transform: translateX(-100%)
 }
 
-
 @media (min-width: 640px) {
     .youtube {
         width: 761px;
         height: 428px;
     }
 }
-
 @tailwind utilities;
