@@ -24,11 +24,11 @@ public class ConfigureMq : IHostingStartup
             services.AddSingleton<IMessageService>(c => new BackgroundMqService());
         })
         .ConfigureAppHost(afterAppHostInit: appHost => {
-            appHost.Resolve<IMessageService>().Start();
             var mqService = appHost.Resolve<IMessageService>();
 
             //Register ServiceStack APIs you want to be able to invoke via MQ
             mqService.RegisterHandler<SendEmail>(appHost.ExecuteMessage);
+            mqService.Start();
         });
 }
 

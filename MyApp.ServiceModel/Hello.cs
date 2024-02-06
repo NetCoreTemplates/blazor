@@ -2,14 +2,13 @@
 
 namespace MyApp.ServiceModel;
 
-[Route("/hello")]
 [Route("/hello/{Name}")]
-public class Hello : IReturn<HelloResponse>
+public class Hello : IGet, IReturn<HelloResponse>
 {
-    public string? Name { get; set; }
+    public required string Name { get; set; }
 }
 
 public class HelloResponse
 {
-    public string Result { get; set; }
+    public required string Result { get; set; }
 }
