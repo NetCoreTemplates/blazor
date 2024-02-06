@@ -17,14 +17,10 @@ public class ConfigureSsg : IHostingStartup
             services.AddSingleton<MarkdownVideos>();
         })
         .ConfigureAppHost(
-            appHost => appHost.Plugins.Add(new CleanUrlsFeature()),
             afterPluginsLoaded: appHost =>
             {
                 var pages = appHost.Resolve<MarkdownPages>();
                 var videos = appHost.Resolve<MarkdownVideos>();
-
-                new IMarkdownPages[] { pages, videos }
-                    .Each(x => x.VirtualFiles = appHost.VirtualFiles);
 
                 pages.LoadFrom("_pages");
                 videos.LoadFrom("_videos");
