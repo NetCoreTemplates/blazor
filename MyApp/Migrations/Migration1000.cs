@@ -1,9 +1,4 @@
 using System.Data;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Infrastructure;
-using Microsoft.EntityFrameworkCore.Storage;
-using MyApp.Data;
-using ServiceStack;
 using ServiceStack.DataAnnotations;
 using ServiceStack.OrmLite;
 

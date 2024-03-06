@@ -32,12 +32,6 @@ services.AddAuthentication(options =>
 services.AddDataProtection()
     .PersistKeysToFileSystem(new DirectoryInfo("App_Data"));
 
-// $ dotnet ef migrations add CreateIdentitySchema
-// $ dotnet ef database update
-var connectionString = config.GetConnectionString("DefaultConnection") 
-    ?? throw new InvalidOperationException("Connection string 'DefaultConnection' not found.");
-services.AddDbContext<ApplicationDbContext>(options =>
-    options.UseSqlite(connectionString, b => b.MigrationsAssembly(nameof(MyApp))));
 services.AddDatabaseDeveloperPageExceptionFilter();
 
 services.AddIdentityCore<ApplicationUser>(options => options.SignIn.RequireConfirmedAccount = true)
