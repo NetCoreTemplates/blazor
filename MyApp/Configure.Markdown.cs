@@ -2,11 +2,11 @@
 using ServiceStack;
 using ServiceStack.IO;
 
-[assembly: HostingStartup(typeof(MyApp.ConfigureSsg))]
+[assembly: HostingStartup(typeof(MyApp.ConfigureMarkdown))]
 
 namespace MyApp;
 
-public class ConfigureSsg : IHostingStartup
+public class ConfigureMarkdown : IHostingStartup
 {
     public void Configure(IWebHostBuilder builder) => builder
         .ConfigureServices((context, services) =>
