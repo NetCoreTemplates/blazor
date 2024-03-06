@@ -11,7 +11,7 @@ using MyApp.Data;
 namespace MyApp.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20240306070621_CreateIdentitySchema")]
+    [Migration("20240301000000_CreateIdentitySchema")]
     partial class CreateIdentitySchema
     {
         /// <inheritdoc />
