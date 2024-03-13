@@ -43,7 +43,7 @@
                         <ValidationMessage For="() => Input.Password" class="mt-2 text-danger text-sm" />
                     </div>
                     <div>
-                        <label for="confirm-password">Confirm Password</label>
+                        <label for="confirm-password" class="@TextInput.LabelClasses">Confirm Password</label>
                         <div class="mt-1 relative rounded-md shadow-sm">
                             <InputText id="confirm-password" type="password" @bind-Value="Input.ConfirmPassword" class="@TextInput.InputClasses" autocomplete="new-password" aria-required="true" placeholder="password" />
                         </div>
