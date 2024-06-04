@@ -745,8 +745,6 @@ export class JsonServiceClient {
     static toBase64;
     constructor(baseUrl = "/") {
         this.baseUrl = baseUrl;
-        this.replyBaseUrl = combinePaths(baseUrl, "json", "reply") + "/";
-        this.oneWayBaseUrl = combinePaths(baseUrl, "json", "oneway") + "/";
         this.mode = "cors";
         this.credentials = "include";
         this.headers = new Headers();
@@ -754,6 +752,7 @@ export class JsonServiceClient {
         this.manageCookies = typeof document == "undefined"; //because node-fetch doesn't
         this.cookies = {};
         this.enableAutoRefreshToken = true;
+        this.basePath = 'api';
     }
     setCredentials(userName, password) {
         this.userName = userName;
@@ -769,9 +768,6 @@ export class JsonServiceClient {
             this.oneWayBaseUrl = combinePaths(this.baseUrl, "json", "oneway") + "/";
         }
         else {
-            if (path[0] != '/') {
-                path = '/' + path;
-            }
             this.replyBaseUrl = combinePaths(this.baseUrl, path) + "/";
             this.oneWayBaseUrl = combinePaths(this.baseUrl, path) + "/";
         }
@@ -1053,7 +1049,7 @@ export class JsonServiceClient {
                     let jwtRequest = this.createRequest({ method: HttpMethods.Post, request: jwtReq, args: null, url });
                     return fetch(url, jwtRequest)
                         .then(r => this.createResponse(r, jwtReq).then(jwtResponse => {
-                        this.bearerToken = jwtResponse.accessToken || null;
+                        this.bearerToken = jwtResponse?.accessToken || null;
                         return resendRequest();
                     }))
                         .catch(res => {
@@ -1134,6 +1130,7 @@ export class JsonApiClient {
         let client = new JsonServiceClient(baseUrl).apply(c => {
             c.basePath = "/api";
             c.headers = new Headers(); //avoid pre-flight CORS requests
+            c.enableAutoRefreshToken = false; // Use JWT Cookies by default
             if (f) {
                 f(c);
             }
@@ -1766,7 +1763,7 @@ export function $1(sel, el) {
 }
 export function $$(sel, el) {
     if (typeof sel === "string")
-        return Array.from((el || document).querySelectorAll(sel));
+        return Array.from((el || typeof document != "undefined" ? document : null)?.querySelectorAll(sel) ?? []);
     if (Array.isArray(sel))
         return sel.flatMap(x => $$(x, el));
     return [sel];
@@ -2250,30 +2247,34 @@ export function safeVarName(s) {
 }
 export function pick(o, keys) {
     const to = {};
-    for (const k in o) {
-        if (o.hasOwnProperty(k) && keys.indexOf(k) >= 0) {
+    Object.keys(o).forEach(k => {
+        if (keys.indexOf(k) >= 0) {
             to[k] = o[k];
         }
-    }
+    });
     return to;
 }
 export function omit(o, keys) {
     const to = {};
-    for (const k in o) {
-        if (o.hasOwnProperty(k) && keys.indexOf(k) < 0) {
+    if (!o)
+        return to;
+    Object.keys(o).forEach(k => {
+        if (keys.indexOf(k) < 0) {
             to[k] = o[k];
         }
-    }
+    });
     return to;
 }
 export function omitEmpty(o) {
     const to = {};
-    for (const k in o) {
+    if (!o)
+        return to;
+    Object.keys(o).forEach(k => {
         const v = o[k];
         if (v != null && v !== '') {
             to[k] = v;
         }
-    }
+    });
     return to;
 }
 export function apply(x, fn) {
