@@ -22,6 +22,7 @@ public class ConfigureMq : IHostingStartup
                 services.AddSingleton(smtpConfig);
             }
             services.AddSingleton<IMessageService>(c => new BackgroundMqService());
+            services.AddPlugin(new CommandsFeature());
         })
         .ConfigureAppHost(afterAppHostInit: appHost => {
             var mqService = appHost.Resolve<IMessageService>();
