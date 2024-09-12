@@ -1,7 +1,7 @@
 ﻿using System.Net.Mail;
 using Microsoft.Extensions.Logging;
 using ServiceStack;
-using MyApp.ServiceModel;
+using ServiceStack.Jobs;
 
 namespace MyApp.ServiceInterface;
 
@@ -45,16 +45,26 @@ public class SmtpConfig
     public string? Bcc { get; set; }
 }
 
-/// <summary>
-/// Uses a configured SMTP client to send emails
-/// </summary>
-public class EmailServices(SmtpConfig config, ILogger<EmailServices> log) 
-    // TODO: Uncomment to enable sending emails with SMTP
-    // : Service
+public class SendEmail
 {
-    public object Any(SendEmail request)
+    public string To { get; set; }
+    public string? ToName { get; set; }
+    public string Subject { get; set; }
+    public string? BodyText { get; set; }
+    public string? BodyHtml { get; set; }
+}
+
+[Worker("smtp")]
+public class SendEmailCommand(ILogger<SendEmailCommand> logger, IBackgroundJobs jobs, SmtpConfig config) 
+    : SyncCommand<SendEmail>
+{
+    private static long count = 0;
+    protected override void Run(SendEmail request)
     {
-        log.LogInformation("Sending email to {Email} with subject {Subject}", request.To, request.Subject);
+        Interlocked.Increment(ref count);
+        var log = Request.CreateJobLogger(jobs, logger);
+        log.LogInformation("Sending {Count} email to {Email} with subject {Subject}", 
+            count, request.To, request.Subject);
 
         using var client = new SmtpClient(config.Host, config.Port);
         client.Credentials = new System.Net.NetworkCredential(config.Username, config.Password);
@@ -80,7 +90,5 @@ public class EmailServices(SmtpConfig config, ILogger<EmailServices> log)
         }
 
         client.Send(msg);
-
-        return new EmptyResponse();
     }
 }
