@@ -19,7 +19,7 @@
         <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="8.*" />
         <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="8.*" />
         <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="8.*" />
-        <PackageReference Include="Markdig" Version="0.35.*" />
+        <PackageReference Include="Markdig" Version="0.37.*" />
     </ItemGroup>
     
     <ItemGroup>
