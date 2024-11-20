@@ -4,6 +4,9 @@ service: my-app
 # Name of the container image.
 image: my-user/myapp
 
+env:
+  ASPNETCORE_FORWARDEDHEADERS_ENABLED: true
+
 # Deploy to these servers.
 servers:
   # IP address of server, optionally use env variable.
