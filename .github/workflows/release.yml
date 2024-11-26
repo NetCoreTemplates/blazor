@@ -71,7 +71,7 @@ jobs:
           bundler-cache: true
 
       - name: Install Kamal
-        run: gem install kamal -v 2.2.2
+        run: gem install kamal -v 2.3.0
 
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
