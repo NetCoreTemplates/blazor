@@ -89,14 +89,18 @@ jobs:
             kamal deploy -q -P --version latest || true
           else
             echo "Not first run, skipping kamal app boot"
-          fi
+          fi          
 
       - name: Ensure file permissions
-        run: kamal server exec --no-interactive "mkdir -p /opt/docker/${{ env.repository_name }}/App_Data && chown -R 1654:1654 /opt/docker/${{ env.repository_name }}"
+        run: |
+          kamal server exec --no-interactive "mkdir -p /opt/docker/${{ env.repository_name }}/App_Data && chown -R 1654:1654 /opt/docker/${{ env.repository_name }}"
 
       - name: Migration
         if: env.HAS_MIGRATIONS == 'true'
-        run: kamal app exec --no-reuse --no-interactive --version=latest "--AppTasks=migrate"
+        run: |
+          kamal server exec --no-interactive 'echo "${{ env.KAMAL_REGISTRY_PASSWORD }}" | docker login ghcr.io -u ${{ env.KAMAL_REGISTRY_USERNAME }} --password-stdin'
+          kamal server exec --no-interactive "docker pull ghcr.io/${{ env.image_repository_name }}:latest || true"
+          kamal app exec --no-reuse --no-interactive --version=latest "--AppTasks=migrate"
 
       - name: Deploy with Kamal
         run: |
