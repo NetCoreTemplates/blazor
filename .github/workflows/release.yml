@@ -36,15 +36,12 @@ jobs:
           else
             echo "HAS_MIGRATIONS=false" >> $GITHUB_ENV
           fi
-          if [ -n "${{ secrets.KAMAL_DEPLOY_IP }}" ]; then
-            echo "HAS_DEPLOY_ACTION=true" >> $GITHUB_ENV
-          else
-            echo "HAS_DEPLOY_ACTION=false" >> $GITHUB_ENV
-          fi
 
       # This step is for the deployment of the templates only, safe to delete
       - name: Modify deploy.yml
-        if: env.HAS_DEPLOY_ACTION == 'true'
+        env: 
+          KAMAL_DEPLOY_IP: ${{ secrets.KAMAL_DEPLOY_IP }}
+        if: env.KAMAL_DEPLOY_IP != null
         run: |
           sed -i "s/service: my-app/service: ${{ env.repository_name_lower }}/g" config/deploy.yml
           sed -i "s#image: my-user/myapp#image: ${{ env.image_repository_name }}#g" config/deploy.yml
