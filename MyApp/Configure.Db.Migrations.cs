@@ -41,6 +41,7 @@ public class ConfigureDbMigrations : IHostingStartup
                 migrator.Run();
             });
             AppTasks.Register("migrate.revert", args => migrator.Revert(args[0]));
+            AppTasks.Register("migrate.rerun", args => migrator.Rerun(args[0]));
             AppTasks.Run();
         });
 

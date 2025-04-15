@@ -1,4 +1,5 @@
 using System.Data;
+using ServiceStack;
 using ServiceStack.DataAnnotations;
 using ServiceStack.OrmLite;
 

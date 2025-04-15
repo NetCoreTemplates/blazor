@@ -14,10 +14,9 @@ public class ConfigureAutoQuery : IHostingStartup
 
             // For TodosService
             services.AddPlugin(new AutoQueryDataFeature());
-
+            
             // For Bookings https://docs.servicestack.net/autoquery-crud-bookings
-            services.AddPlugin(new AutoQueryFeature
-            {
+            services.AddPlugin(new AutoQueryFeature {
                 MaxLimit = 1000,
                 //IncludeTotal = true,
             });
