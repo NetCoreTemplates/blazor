@@ -27,7 +27,7 @@
                 <div class="flex flex-col gap-y-4">
                     <div>
                         <label for="recovery-code" class="@TextInput.LabelClasses">Recovery Code</label>
-                        <div class="mt-1 relative rounded-md shadow-sm">
+                        <div class="mt-1 relative">
                             <InputText id="recovery-code" type="text" @bind-Value="Input.RecoveryCode" class="@TextInput.InputClasses" autocomplete="off" placeholder="RecoveryCode" />
                         </div>
                         <ValidationMessage For="() => Input.RecoveryCode" class="mt-2 text-danger text-sm" />

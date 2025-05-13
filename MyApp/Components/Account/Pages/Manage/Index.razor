@@ -24,13 +24,13 @@
             <div class="flex flex-col gap-y-4">
                 <div>
                     <label for="username" class="@TextInput.LabelClasses">Username</label>
-                    <div class="mt-1 relative rounded-md shadow-sm">
+                    <div class="mt-1 relative">
                         <input id="username" type="text" value="@username" class="@TextInput.InputClasses" placeholder="Please choose your username." disabled />
                     </div>
                 </div>
                 <div>
                     <label for="phone-number" class="@TextInput.LabelClasses">Phone number</label>
-                    <div class="mt-1 relative rounded-md shadow-sm">
+                    <div class="mt-1 relative">
                         <InputText id="phone-number" type="text" @bind-Value="Input.PhoneNumber" class="@TextInput.InputClasses" placeholder="Please enter your phone number." />
                     </div>
                     <ValidationMessage For="() => Input.PhoneNumber" class="mt-2 text-danger text-sm" />

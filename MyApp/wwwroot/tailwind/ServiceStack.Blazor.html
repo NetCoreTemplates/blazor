@@ -325,69 +325,6 @@ else
 bool dismissed = false;
 public static string Classes { get; set; } = "rounded-md bg-green-50 dark:bg-green-200 p-4";
 }
-@typeparam T
-@inherits TextInputBase
-<div id=@($"{Id}-autocomplete") class=@FieldClass>
-@if (!string.IsNullOrEmpty(Label))
-{
-<label for=@Id class=@ClassNames("block text-sm font-medium text-gray-700 dark:text-gray-300", LabelClass)>@UseLabel</label>
-}
-<div class="relative mt-1">
-<input id=@Id type="text" @bind-value="txtValue" @bind-value:event="oninput" class=@ClassNames("block w-full sm:text-sm rounded-md dark:text-white dark:bg-gray-900",
-CssClass("shadow-sm focus:ring-indigo-500 focus:border-indigo-500 border-gray-300 dark:border-gray-600",
-"pr-10 border-red-300 text-red-900 placeholder-red-300 focus:outline-none focus:ring-red-500 focus:border-red-500"))
-role="combobox" aria-controls="options" aria-expanded="false" autocomplete="off" spellcheck="false" placeholder=@(Multiple || Value == null ? placeholder : "")
-@onkeydown="OnKeyDownAsync" @onkeyup="OnKeyUp" @onclick="update" @onpaste="OnPasteAsync" @attributes="IncludeAttributes">
-<button type="button" @onclick="toggle" class="absolute inset-y-0 right-0 flex items-center rounded-r-md px-2 focus:outline-none" tabindex="-1">
-<svg class="h-5 w-5 text-gray-400 dark:text-gray-500" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
-<path fill-rule="evenodd" d="M10 3a.75.75 0 01.55.24l3.25 3.5a.75.75 0 11-1.1 1.02L10 4.852 7.3 7.76a.75.75 0 01-1.1-1.02l3.25-3.5A.75.75 0 0110 3zm-3.76 9.2a.75.75 0 011.06.04l2.7 2.908 2.7-2.908a.75.75 0 111.1 1.02l-3.25 3.5a.75.75 0 01-1.1 0l-3.25-3.5a.75.75 0 01.04-1.06z" clip-rule="evenodd" />
-</svg>
-</button>
-@if (showPopup)
-{
-<ul class="absolute z-10 mt-1 max-h-60 w-full overflow-auto rounded-md bg-white dark:bg-black py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm"
-@onkeydown="OnKeyDownAsync" id=@("{Id}-options") role="listbox">
-@foreach (var option in FilteredValues)
-{
-<li class=@ClassNames(option.Equals(active) ? "active bg-indigo-600 text-white" : "text-gray-900 dark:text-gray-100", "relative cursor-default select-none py-2 pl-3 pr-9")
-@onmouseover="_ => setActive(option)" @onclick="_ => select(option)" role="option" tabindex="-1">
-@Item!(option)
-@if (Values.Contains(option))
-{
-<span class=@ClassNames("absolute inset-y-0 right-0 flex items-center pr-4", option.Equals(active) ? "text-white" : "text-indigo-600")>
-<svg class="h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
-<path fill-rule="evenodd" d="M16.704 4.153a.75.75 0 01.143 1.052l-8 10.5a.75.75 0 01-1.127.075l-4.5-4.5a.75.75 0 011.06-1.06l3.894 3.893 7.48-9.817a.75.75 0 011.05-.143z" clip-rule="evenodd" />
-</svg>
-</span>
-}
-</li>
-}
-</ul>
-}
-else if (!Multiple && Value is not null)
-{
-<div @onkeydown="OnKeyDownAsync" @onclick="toggle" class="h-8 -mt-8 ml-3 pt-0.5">
-@Item!(Value)
-</div>
-}
-@if (HasErrorField)
-{
-<div class="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none" tabindex="-1">
-<svg class="h-5 w-5 text-red-500" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
-<path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clip-rule="evenodd" />
-</svg>
-</div>
-}
-</div>
-@if (HasErrorField)
-{
-<p class="mt-2 text-sm text-red-500" id=@($"{Id}-error")>@ErrorFieldMessage</p>
-}
-else if (!string.IsNullOrEmpty(UseHelp))
-{
-<p id=@($"{Id}-description") class="text-gray-500">@UseHelp</p>
-}
-</div>
 @typeparam Model
 @inherits AutoFormBase<Model>
 @if (FormStyle == FormStyle.Card)
@@ -598,7 +535,7 @@ else
 @if (invalidAccess != null)
 {
 <div class="w-body md:w-body overflow-auto">
-<EnsureAccess Title=@($"View {typeof(Model).Name}") HtmlMessage=@invalidAccess />
+<EnsureAccess Title=@($"View {ModelTitle}") HtmlMessage=@invalidAccess />
 </div>
 }
 else
@@ -610,7 +547,7 @@ else
 {
 if (invalidCreateAccess != null)
 {
-<EnsureAccess Title=@($"New {typeof(Model).Name}") HtmlMessage=@invalidCreateAccess Done="OnNewDone" />
+<EnsureAccess Title=@($"New {ModelTitle}") HtmlMessage=@invalidCreateAccess Done="OnNewDone" />
 }
 else if (CreateForm != null)
 {
@@ -625,7 +562,7 @@ else if (EditModel != null)
 {
 if (invalidUpdateAccess != null)
 {
-<EnsureAccess Title=@($"Edit {typeof(Model).Name}") HtmlMessage=@invalidUpdateAccess Done="OnEditDone" />
+<EnsureAccess Title=@($"Edit {ModelTitle}") HtmlMessage=@invalidUpdateAccess Done="OnEditDone" />
 }
 else if (EditForm != null)
 {
@@ -648,7 +585,7 @@ else if (ShowToolbar)
 <div class="flex mt-1">
 @if (ShowPreferences)
 {
-<button type="button" class="pl-2 text-gray-700 dark:text-gray-300 hover:text-indigo-600 dark:hover:text-indigo-400" title=@($"{typeof(Model).Name} Preferences") @onclick="_ => ShowQueryPrefs = !ShowQueryPrefs">
+<button type="button" class="pl-2 text-gray-700 dark:text-gray-300 hover:text-indigo-600 dark:hover:text-indigo-400" title=@($"{ModelTitle} Preferences") @onclick="_ => ShowQueryPrefs = !ShowQueryPrefs">
 <svg class="w-8 h-8" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><g stroke-width="1.5" fill="none"><path d="M9 3H3.6a.6.6 0 0 0-.6.6v16.8a.6.6 0 0 0 .6.6H9M9 3v18M9 3h6M9 21h6m0-18h5.4a.6.6 0 0 1 .6.6v16.8a.6.6 0 0 1-.6.6H15m0-18v18" stroke="currentColor" /></g></svg>
 </button>
 }
@@ -766,9 +703,9 @@ else
 @if (ShowNewItem && CreateOp != null)
 {
 <div class="pl-2 mt-1">
-<button type="button" @onclick="OnShowNewItem" title=@($"New {typeof(Model).Name}") class=@ToolbarButtonClass>
+<button type="button" @onclick="OnShowNewItem" title=@NewButtonLabel class=@ToolbarButtonClass>
 <svg class="w-5 h-5 mr-1 text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-50" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z" fill="currentColor"></path></svg>
-<span class="whitespace-nowrap">@($"New {typeof(Model).Name}")</span>
+<span class="whitespace-nowrap">@NewButtonLabel</span>
 </button>
 </div>
 }
@@ -818,6 +755,69 @@ AllowSelection="AllowSelection" AllowFiltering="AllowFiltering" FilterDefinition
 </CascadingValue>
 <DynamicModalLookup @ref="ModalLookup" AppMetadata=@AppMetadata />
 }
+@typeparam T
+@inherits TextInputBase
+<div id=@($"{Id}-autocomplete") class=@FieldClass>
+@if (!string.IsNullOrEmpty(Label))
+{
+<label for=@Id class=@ClassNames("block text-sm font-medium text-gray-700 dark:text-gray-300", LabelClass)>@UseLabel</label>
+}
+<div class="relative mt-1">
+<input id=@Id type="text" @bind-value="txtValue" @bind-value:event="oninput" class=@ClassNames("block w-full sm:text-sm rounded-md dark:text-white dark:bg-gray-900",
+CssClass("shadow-sm focus:ring-indigo-500 focus:border-indigo-500 border-gray-300 dark:border-gray-600",
+"pr-10 border-red-300 text-red-900 placeholder-red-300 focus:outline-none focus:ring-red-500 focus:border-red-500"))
+role="combobox" aria-controls="options" aria-expanded="false" autocomplete="off" spellcheck="false" placeholder=@(Multiple || Value == null ? placeholder : "")
+@onkeydown="OnKeyDownAsync" @onkeyup="OnKeyUp" @onclick="update" @onpaste="OnPasteAsync" @attributes="IncludeAttributes">
+<button type="button" @onclick="toggle" class="absolute inset-y-0 right-0 flex items-center rounded-r-md px-2 focus:outline-none" tabindex="-1">
+<svg class="h-5 w-5 text-gray-400 dark:text-gray-500" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+<path fill-rule="evenodd" d="M10 3a.75.75 0 01.55.24l3.25 3.5a.75.75 0 11-1.1 1.02L10 4.852 7.3 7.76a.75.75 0 01-1.1-1.02l3.25-3.5A.75.75 0 0110 3zm-3.76 9.2a.75.75 0 011.06.04l2.7 2.908 2.7-2.908a.75.75 0 111.1 1.02l-3.25 3.5a.75.75 0 01-1.1 0l-3.25-3.5a.75.75 0 01.04-1.06z" clip-rule="evenodd" />
+</svg>
+</button>
+@if (showPopup)
+{
+<ul class="absolute z-10 mt-1 max-h-60 w-full overflow-auto rounded-md bg-white dark:bg-black py-1 text-base shadow-lg ring-1 ring-black/5 focus:outline-none sm:text-sm"
+@onkeydown="OnKeyDownAsync" id=@("{Id}-options") role="listbox">
+@foreach (var option in FilteredValues)
+{
+<li class=@ClassNames(option.Equals(active) ? "active bg-indigo-600 text-white" : "text-gray-900 dark:text-gray-100", "relative cursor-default select-none py-2 pl-3 pr-9")
+@onmouseover="_ => setActive(option)" @onclick="_ => select(option)" role="option" tabindex="-1">
+@Item!(option)
+@if (Values.Contains(option))
+{
+<span class=@ClassNames("absolute inset-y-0 right-0 flex items-center pr-4", option.Equals(active) ? "text-white" : "text-indigo-600")>
+<svg class="h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+<path fill-rule="evenodd" d="M16.704 4.153a.75.75 0 01.143 1.052l-8 10.5a.75.75 0 01-1.127.075l-4.5-4.5a.75.75 0 011.06-1.06l3.894 3.893 7.48-9.817a.75.75 0 011.05-.143z" clip-rule="evenodd" />
+</svg>
+</span>
+}
+</li>
+}
+</ul>
+}
+else if (!Multiple && Value is not null)
+{
+<div @onkeydown="OnKeyDownAsync" @onclick="toggle" class="h-8 -mt-8 ml-3 pt-0.5">
+@Item!(Value)
+</div>
+}
+@if (HasErrorField)
+{
+<div class="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none" tabindex="-1">
+<svg class="h-5 w-5 text-red-500" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+<path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clip-rule="evenodd" />
+</svg>
+</div>
+}
+</div>
+@if (HasErrorField)
+{
+<p class="mt-2 text-sm text-red-500" id=@($"{Id}-error")>@ErrorFieldMessage</p>
+}
+else if (!string.IsNullOrEmpty(UseHelp))
+{
+<p id=@($"{Id}-description") class="text-gray-500">@UseHelp</p>
+}
+</div>
 @inherits UiComponentBase
 <CascadingValue IsFixed="true" Value="this">@ChildContent</CascadingValue>
 <nav class=@ClassNames("flex", Class) aria-label="Breadcrumb">
@@ -1042,7 +1042,7 @@ class=@ClassNames(CssDefaults.Grid.GetTableRowClass(TableStyle, i++, IsSelected(
 {
 <label for=@Id class="@DateTimeInput.LabelClasses">@UseLabel</label>
 }
-<div class="mt-1 relative rounded-md shadow-sm">
+<div class="mt-1 relative">
 <input type="date" class=@ClassNames(DateTimeInput.InputBaseClasses,
 CssClass(DateTimeInput.InputValidClasses, DateTimeInput.InputInvalidClasses))
 id=@Id name=@Id @bind-value="CurrentValueAsDateTime" placeHolder=@UsePlaceholder @bind-value:event="oninput" @attributes="IncludeAttributes">
@@ -1114,18 +1114,17 @@ else
 <TextInput type=@UseType Id=@UseId Status=@Status @bind-Value="Value" class=@(Input?.Css?.Input) LabelClass=@(Input?.Css?.Label) Help=@UseHelp @attributes="AllAttributes" />
 }
 @inherits AuthBlazorComponentBase
-@if (!IsAuthenticated)
-{
 <SlideOver Title=@Title SubHeading=@SubHeading Done="Done">
 <Alert HtmlMessage=@HtmlMessage />
+@if (!IsAuthenticated)
+{
 <div class="md:p-4">
-<button type="button" @onclick="signIn"
-class="@ButtonClasses">
+<button type="button" @onclick="signIn" class="@ButtonClasses">
 Sign In
 </button>
 </div>
-</SlideOver>
 }
+</SlideOver>
 @code {
 public static string ButtonClasses { get; set; } = "flex justify-center items-center px-4 py-2 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50";
 }
@@ -1417,7 +1416,7 @@ else if (ErrorFieldMessage != null)
 }
 @inherits UiComponentBase
 <div @onclick="Close" id=@Id aria-labelledby="modal-title" role="dialog" aria-modal="true" class=@ClassNames("relative z-10", DialogTransition.DisplayClass)>
-<div class=@ClassNames("fixed inset-0 bg-gray-500 dark:bg-gray-400 bg-opacity-75 dark:bg-opacity-75 transition-opacity", DialogTransition.Class)></div>
+<div class=@ClassNames("fixed inset-0 bg-gray-500 dark:bg-gray-400/75 transition-opacity", DialogTransition.Class)></div>
 <div class="fixed inset-0 z-10 overflow-y-auto">
 <div class="flex min-h-full items-end justify-center p-4 text-center sm:items-center sm:p-0">
 <!-- This element is to trick the browser into centering the modal contents. -->
@@ -1447,10 +1446,10 @@ class="bg-white dark:bg-black rounded-md text-gray-400 dark:text-gray-500 hover:
 <div class="pt-2 overflow-auto" style="min-height:620px">
 <div class="mt-3 pl-5 flex flex-wrap items-center">
 <h3 class="hidden sm:block text-xl leading-6 font-medium text-gray-900 dark:text-gray-50 mr-3">
-Select <span class="hidden md:inline">@TextUtils.Humanize(typeof(Model).Name)</span>
+Select <span class="hidden md:inline">@ModelTitle</span>
 </h3>
 <div class="flex pb-1 sm:pb-0">
-<button type="button" class="pl-2 text-gray-700 hover:text-indigo-600" title=@($"{typeof(Model).Name} Preferences") @onclick="_ => ShowQueryPrefs = !ShowQueryPrefs">
+<button type="button" class="pl-2 text-gray-700 hover:text-indigo-600" title=@($"{ModelTitle} Preferences") @onclick="_ => ShowQueryPrefs = !ShowQueryPrefs">
 <svg class="w-8 h-8" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><g stroke-width="1.5" fill="none"><path d="M9 3H3.6a.6.6 0 0 0-.6.6v16.8a.6.6 0 0 0 .6.6H9M9 3v18M9 3h6M9 21h6m0-18h5.4a.6.6 0 0 1 .6.6v16.8a.6.6 0 0 1-.6.6H15m0-18v18" stroke="currentColor" /></g></svg>
 </button>
 <button type="button" class=@ClassNames("pl-2", canFirst ? "text-gray-700 dark:text-gray-300 hover:text-indigo-600 dark:hover:text-indigo-400" : "text-gray-400 dark:text-gray-500")
@@ -1784,6 +1783,11 @@ else
 @ChildContent
 </button>
 }
+@code {
+public static string BaseClass { get; set; } = "inline-flex justify-center rounded-md border border-gray-300 py-2 px-4 text-sm font-medium shadow-sm focus:outline-none focus:ring-2 focus:ring-offset-2";
+public static string SecondaryClass { get; set; } = "bg-white dark:bg-gray-800 border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-400 dark:hover:text-white hover:bg-gray-50 dark:hover:bg-gray-700 focus:ring-indigo-500 dark:focus:ring-indigo-600 dark:ring-offset-black";
+public static string Classes => BaseClass + " " + SecondaryClass;
+}
 @typeparam TValue
 @inherits SelectInputBase<TValue>
 <div class=@FieldClass>
@@ -1923,8 +1927,8 @@ public static string InputClasses { get; set; } = InputBaseClasses + " " + Input
 {
 <label for=@Id class=@ClassNames(TextAreaInput.LabelClasses, LabelClass)>@UseLabel</label>
 }
-<div class="mt-1 relative rounded-md shadow-sm">
-<textarea id=@Id name=@Id @bind="CurrentValue" placeHolder=@UsePlaceholder @attributes="IncludeAttributes"
+<div class="mt-1 relative">
+<textarea id=@Id name=@Id @bind-value="CurrentValue" @bind-value:event="oninput" placeHolder=@UsePlaceholder @attributes="IncludeAttributes"
 class=@ClassNames(TextAreaInput.InputBaseClasses,
 CssClass(TextAreaInput.InputValidClasses,TextAreaInput.InputInvalidClasses)) />
 @if (HasErrorField)
@@ -1944,7 +1948,7 @@ else if (!string.IsNullOrEmpty(UseHelp))
 {
 <label for=@Id class=@ClassNames(TextInput.LabelClasses, LabelClass)>@UseLabel</label>
 }
-<div class="mt-1 relative rounded-md shadow-sm">
+<div class="mt-1 relative">
 @{
 var cls = ClassNames(TextInput.InputBaseClasses, CssClass(TextInput.InputValidClasses, TextInput.InputInvalidClasses));
 }
@@ -1992,7 +1996,7 @@ public const TableStyle DefaultTableStyle = TableStyle.StripedRows;
 public const string GridClass = "mt-4 flex flex-col";
 public const string Grid2Class = "-my-2 -mx-4 overflow-x-auto sm:-mx-6 lg:-mx-8";
 public const string Grid3Class = "inline-block min-w-full py-2 align-middle md:px-6 lg:px-8";
-public const string Grid4Class = "overflow-hidden shadow ring-1 ring-black ring-opacity-5 md:rounded-lg";
+public const string Grid4Class = "overflow-hidden shadow ring-1 ring-black/5 md:rounded-lg";
 public const string TableClass = "min-w-full divide-y divide-gray-200 dark:divide-gray-700";
 public const string TableHeadClass = "bg-gray-50 dark:bg-gray-900";
 public const string TableCellClass = "px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400";
@@ -2009,7 +2013,7 @@ public static string GetGrid3Class(TableStyle style = DefaultTableStyle) => styl
 public static string GetGrid4Class(TableStyle style = DefaultTableStyle) => style.HasFlag(TableStyle.WhiteBackground)
 ? ""
 : style.HasFlag(TableStyle.FullWidth)
-? "overflow-hidden shadow-sm ring-1 ring-black ring-opacity-5"
+? "overflow-hidden shadow-sm ring-1 ring-black/5"
 : Grid4Class;
 public static string GetTableClass(TableStyle style = DefaultTableStyle) => style.HasFlag(TableStyle.FullWidth) || style.HasFlag(TableStyle.VerticalLines)
 ? "min-w-full divide-y divide-gray-300"
@@ -2042,7 +2046,7 @@ public static string GetPanelClass(FormStyle style = FormStyle.SlideOver) => sty
 public static string GetFormClass(FormStyle style = FormStyle.SlideOver) => style == FormStyle.Card ? Card.FormClass : SlideOver.FormClass;
 public static string GetHeadingClass(FormStyle style = FormStyle.SlideOver) => style == FormStyle.Card ? Card.HeadingClass : SlideOver.HeadingClass;
 public static string GetSubHeadingClass(FormStyle style = FormStyle.SlideOver) => style == FormStyle.Card ? Card.SubHeadingClass : SlideOver.SubHeadingClass;
-public const string ButtonsClass = "mt-4 px-4 py-3 bg-gray-50 dark:bg-gray-900 sm:px-6 flex flex-wrap justify-between";
+public const string ButtonsClass = "px-4 py-3 bg-gray-50 dark:bg-gray-900 sm:px-6 flex flex-wrap justify-between";
 public const string LegendClass = "text-base font-medium text-gray-900 dark:text-gray-100 text-center mb-4";
 public static class SlideOver
 {
@@ -2051,7 +2055,7 @@ public const string FormClass = "flex h-full flex-col divide-y divide-gray-200 d
 public const string TitlebarClass = "bg-gray-50 dark:bg-gray-900 px-4 py-6 sm:px-6";
 public const string HeadingClass = "text-lg font-medium text-gray-900 dark:text-gray-100";
 public const string SubHeadingClass = "mt-1 text-sm text-gray-500 dark:text-gray-400";
-public const string CloseButtonClass = "rounded-md bg-gray-50 dark:bg-gray-900 text-gray-400 dark:text-gray-500 hover:text-gray-500 dark:hover:text-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 dark:ring-offset-black";
+public const string CloseButtonClass = "cursor-pointer rounded-md bg-gray-50 dark:bg-gray-900 text-gray-400 dark:text-gray-500 hover:text-gray-500 dark:hover:text-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 dark:ring-offset-black";
 public static DataTransition SlideOverTransition = new DataTransition(
 entering: new(@class: "transform transition ease-in-out duration-500 sm:duration-700", from: "translate-x-full", to: "translate-x-0"),
 leaving: new(@class: "transform transition ease-in-out duration-500 sm:duration-700", from: "translate-x-0", to: "translate-x-full"),
@@ -2077,7 +2081,7 @@ public const string PanelClass = "pointer-events-auto w-screen xl:max-w-3xl md:m
 public const string FormClass = "flex h-full flex-col divide-y divide-gray-200 dark:divide-gray-700 bg-white dark:bg-black shadow-xl";
 public const string TitlebarClass = "bg-gray-50 dark:bg-gray-900 p-3 sm:p-6";
 public const string HeadingClass = "text-lg font-medium text-gray-900 dark:text-gray-50";
-public const string CloseButtonClass = "rounded-md bg-gray-50 dark:bg-black text-gray-400 dark:text-gray-500 hover:text-gray-500 dark:hover:text-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 dark:ring-offset-black";
+public const string CloseButtonClass = "cursor-pointer rounded-md bg-gray-50 dark:bg-black text-gray-400 dark:text-gray-500 hover:text-gray-500 dark:hover:text-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 dark:ring-offset-black";
 public const string TransitionClass = "transform transition ease-in-out duration-500 sm:duration-700";
 }
 public static class HtmlFormat
@@ -2145,7 +2149,7 @@ public static class SelectInput
 public static string ErrorClasses { get; set; } = TextInput.ErrorClasses;
 public static string LabelClasses { get; set; } = TextInput.LabelClasses;
 public static string InputBaseClasses { get; set; } = "mt-1 block w-full pl-3 pr-10 py-2 text-base focus:outline-none border-gray-300 sm:text-sm rounded-md dark:text-white dark:bg-gray-900 dark:border-gray-600 disabled:bg-gray-100 dark:disabled:bg-gray-800 disabled:shadow-none";
-public static string InputValidClasses { get; set; } = "text-gray-900 focus:ring-indigo-500 focus:border-indigo-500";
+public static string InputValidClasses { get; set; } = "shadow-sm text-gray-900 focus:ring-indigo-500 focus:border-indigo-500";
 public static string InputInvalidClasses { get; set; } = "text-red-900 focus:ring-red-500 focus:border-red-500";
 public static string InputClasses { get; set; } = InputBaseClasses + " " + InputValidClasses;
 }

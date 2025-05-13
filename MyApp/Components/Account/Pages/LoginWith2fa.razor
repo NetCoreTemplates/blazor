@@ -26,7 +26,7 @@
                 <div class="flex flex-col gap-y-4">
                     <div>
                         <label for="two-factor-code" class="@TextInput.LabelClasses">Authenticator code</label>
-                        <div class="mt-1 relative rounded-md shadow-sm">
+                        <div class="mt-1 relative">
                             <InputText id="two-factor-code" type="text" @bind-Value="Input.TwoFactorCode" class="@TextInput.InputClasses" autocomplete="off" />
                         </div>
                         <ValidationMessage For="() => Input.TwoFactorCode" class="mt-2 text-danger text-sm" />

@@ -33,7 +33,7 @@
                     {
                         <div>
                             <label for="email" class="@TextInput.LabelClasses">Email</label>
-                            <div class="mt-1 relative rounded-md shadow-sm">
+                            <div class="mt-1 relative">
                                 <input id="email" type="text" value="@email" class="@TextInput.InputClasses" placeholder="Please enter your email." disabled />
                             </div>
                         </div>
@@ -42,7 +42,7 @@
                     {
                         <div>
                             <label for="email" class="@TextInput.LabelClasses">Email</label>
-                            <div class="mt-1 relative rounded-md shadow-sm">
+                            <div class="mt-1 relative">
                                 <input id="email" type="text" value="@email" class="@TextInput.InputClasses" placeholder="Please enter your email." disabled />
                             </div>
                             <SecondaryButton id="email-verification" type="submit" form="send-verification-form">Send verification email</SecondaryButton>
@@ -50,7 +50,7 @@
                     }
                 <div>
                     <label for="new-email" class="@TextInput.LabelClasses">New email</label>
-                    <div class="mt-1 relative rounded-md shadow-sm">
+                    <div class="mt-1 relative">
                         <InputText id="new-email" type="text" @bind-Value="Input.NewEmail" class="@TextInput.InputClasses" autocomplete="email" aria-required="true" placeholder="Please enter new email." />
                     </div>
                     <ValidationMessage For="() => Input.NewEmail" class="mt-2 text-danger text-sm" />

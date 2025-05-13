@@ -32,7 +32,7 @@
                     {
                         <div>
                             <label for="password" class="@TextInput.LabelClasses">Password</label>
-                            <div class="mt-1 relative rounded-md shadow-sm">
+                            <div class="mt-1 relative">
                                 <InputText id="password" type="password" @bind-Value="Input.Password" class="@TextInput.InputClasses" autocomplete="current-password" aria-required="true" placeholder="Please enter your password." />
                             </div>
                             <ValidationMessage For="() => Input.Password" class="mt-2 text-danger text-sm" />
