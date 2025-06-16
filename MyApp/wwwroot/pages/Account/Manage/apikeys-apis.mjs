@@ -183,4 +183,3 @@ export class DeleteUserApiKey {
     getMethod() { return 'DELETE' }
     createResponse() { return new EmptyResponse() }
 }
-
