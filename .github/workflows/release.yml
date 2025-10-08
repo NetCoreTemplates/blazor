@@ -102,6 +102,6 @@ jobs:
 
       - name: Deploy with Kamal
         run: |
-          kamal server exec --no-interactive 'echo "${{ env.KAMAL_REGISTRY_PASSWORD }}" | docker login ghcr.io -u ${{ env.KAMAL_REGISTRY_USERNAME }} --password-stdin'
           kamal lock release -v
+          kamal server exec --no-interactive 'echo "${{ env.KAMAL_REGISTRY_PASSWORD }}" | docker login ghcr.io -u ${{ env.KAMAL_REGISTRY_USERNAME }} --password-stdin'
           kamal deploy -P --version latest
