@@ -1,7 +1,7 @@
 {
     "scripts": {
-        "postinstall": "dotnet run --AppTasks=migrate && node postinstall.js",
-        "dtos": "x mjs",
+        "postinstall": "node postinstall.js && npm run migrate",
+        "dtos": "npx get-dtos mjs",
         "dev": "dotnet watch",
         "ui:dev": "tailwindcss -i ./tailwind.input.css -o ./wwwroot/css/app.css --watch",
         "ui:build": "tailwindcss -i ./tailwind.input.css -o ./wwwroot/css/app.css --minify",
