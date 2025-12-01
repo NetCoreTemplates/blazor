@@ -5,9 +5,11 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <base href="/" />
+    <ResourcePreloader />
     <link rel="stylesheet" href="css/app.css" />
     <link href="css/typography.css" rel="stylesheet">
     <link href="css/highlight.css" rel="stylesheet">
+    <link rel="stylesheet" href="@Assets["MyApp.styles.css"]" />
     <link rel="icon" href="/img/blazor.svg" type="image/svg+xml">
     <link rel="icon" type="image/png" href="favicon.png" />
     @BlazorHtml.ImportMap(new()
@@ -22,7 +24,8 @@
 
 <body class="bg-white dark:bg-black dark:text-white">
     <Routes />
-    <script src="_framework/blazor.web.js"></script>
+    <ReconnectModal />
+    <script src="@Assets["_framework/blazor.web.js"]"></script>
     <script src="js/servicestack-blazor.js"></script>
     <script>JS.init({ colorScheme:false })</script>
     <script src="lib/js/highlight.js"></script>
